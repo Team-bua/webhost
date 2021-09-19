@@ -17,11 +17,12 @@ use Illuminate\Support\Facades\Route;
 */
 
 //Sign In
+Route::group(['middleware' => 'user'], function () {
+    Route::get('/admin',[AdminController::class,'viewAdmin'])->name('admin');
+});
 Route::get('/',[LoginController::class,'viewSign'])->name('signin.view');
 Route::post('/sigin-in',[LoginController::class,'postSignIn'])->name('signin');
 //Logout
 Route::get('/logout',[LoginController::class,'postLogout'])->name('logout');
 //Admin
-Route::get('/admin',[AdminController::class,'viewAdmin'])->name('admin');
-
 Route::get('/users',[AdminController::class,'viewUsers'])->name('users');
