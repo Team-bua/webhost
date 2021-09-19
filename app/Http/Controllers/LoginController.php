@@ -11,7 +11,15 @@ class LoginController extends Controller
 
     public function viewSign()
     {
-        return view('admin.signin');
+        if(Auth::check()){
+            if(Auth::user()->role == 1){
+                return redirect()->route('users');
+            }else{
+                return redirect()->route('data');
+            }
+        }else{
+            return view('admin.signin');
+        }
     }
 
     public function postSignIn(LoginRequest $request)
