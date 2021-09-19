@@ -4,8 +4,9 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="csrf-token" content="{{ csrf_token() }}">
   <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('dashboard/assets/img/apple-icon.png') }}">
-  <link rel="icon" type="image/png" href="{{ asset('dev/img/mttel.png') }}">
+  <link rel="icon" type="image/png" href="{{ asset('dashboard/assets/img/apple-icon.png') }}">
   <title>Trang quản lý Admin</title>
   <!--     Fonts and icons     -->
   <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
@@ -30,6 +31,7 @@
   <script src="{{ asset('dashboard/assets/js/plugins/smooth-scrollbar.min.js') }}"></script>
   <script src="{{ asset('dashboard/assets/js/plugins/chartjs.min.js') }}"></script>
   <script src="{{ asset('dashboard/assets/js/plugins/jquery.min.js') }}" type="text/javascript"></script>
+  <script src="{{ asset('dashboard/assets/js/plugins/jquery.validate.min.js') }}" type="text/javascript"></script>
   <script src="{{ asset('dashboard/assets/js/plugins/flatpickr.min.js') }}" type="text/javascript"></script>
   <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
   <script>

@@ -114,7 +114,7 @@
                             @if (session('information'))
                             <div class="alert alert-success"><b>{{ session('information') }}</b></div>
                             @endif
-                            <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModalMessage">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#modalRegister">
                                 <button class="btn bg-gradient-primary mt-4 w-12" style="float: right;margin-bottom:5px;margin-left:5px;">
                                     <i class="fa fa-plus">&nbsp; Add user </i></button>
                             </a>
@@ -167,7 +167,7 @@
         </div>
         <div class="col-md-4">
             <!-- Modal -->
-            <div class="modal fade" id="exampleModalMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
+            <div class="modal fade" id="modalRegister" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
               <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
@@ -176,20 +176,44 @@
                       <span aria-hidden="true">×</span>
                     </button>
                   </div>
-                  <form  action="#"method="post" enctype="multipart/form-data" id="form_data">
-                  @csrf
+                  <form action="#" method="post" enctype="multipart/form-data" id="add_user">
+                    @csrf
                     <div class="modal-body">                     
                       <div class="form-group">       
-                        <label class="form-control-label" for="basic-url">Số tiền: </label>
+                        <label class="form-control-label" for="basic-url">Tên: </label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fa fa-paint-brush"></i></span>
-                            <input name="money" id="money" type="number" class="form-control" id="exampleFormControlInput1" placeholder="Số tiền. . . . . . . . ." min="0" maxlength="50" required>
-                            <span class="input-group-text" id="basic-addon2">VNĐ</span>
+                            <input name="name" id="name" type="text" class="form-control" placeholder="Tên. . . . . . . . ." min="0" maxlength="50">                           
                         </div>                        
-                      </div>                                                 
+                      </div>   
+                      <p id="error-name" style="color:red;font-size: 13px;margin-left: 10px"></p> 
+                      <div class="form-group">       
+                        <label class="form-control-label" for="basic-url">Email: </label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-paint-brush"></i></span>
+                            <input name="email" id="email" type="text" class="form-control" placeholder="Email. . . . . . . . ." min="0" maxlength="50">                        
+                        </div>                        
+                      </div>
+                      <p id="error-email" style="color:red;font-size: 13px;margin-left: 10px"></p>    
+                      <div class="form-group">       
+                        <label class="form-control-label" for="basic-url">Mật khẩu: </label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-paint-brush"></i></span>
+                            <input name="password" id="password" type="password" class="form-control" placeholder="Mật khẩu. . . . . . . . ." min="0" maxlength="50">                  
+                        </div>                        
+                      </div>       
+                      <p id="error-password" style="color:red;font-size: 13px;margin-left: 10px"></p>
+                      <div class="form-group">       
+                        <label class="form-control-label" for="basic-url">Xác nhận mật khẩu: </label>
+                        <div class="input-group">
+                            <span class="input-group-text"><i class="fa fa-paint-brush"></i></span>
+                            <input name="confirm_password" id="confirm_password" type="password" class="form-control" placeholder="Xác nhận mật khẩu. . . . . . . . ." min="0" maxlength="50">
+                        </div>                                              
+                      </div> 
+                      <p id="error-confirm_password" style="color:red;font-size: 13px;margin-left: 10px"></p>                                                   
                   </div>
                   <div class="modal-footer">
-                    <button type="submit" class="btn bg-gradient-secondary">Cập nhật</button>
+                    <button class="btn bg-gradient-primary" id="btn-add">Thêm</button>
                   </div>
                 </form>
                 </div>
@@ -204,6 +228,48 @@
      const dataTableBasic = new simpleDatatables.DataTable("#datatable-basic", {
       searchable: true,
       fixedHeight: true
+    });
+
+    $('#add_user').submit(function(e){
+        e.preventDefault();
+        var name = $("#name").val();
+        var email = $("#email").val();
+        var password = $("#password").val();
+        var confirm_password = $("#confirm_password").val();
+
+        $.ajax({
+                url: "{{ route('adduser') }}",
+                type: "post",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    name: name,
+                    email: email,
+                    password: password,
+                    confirm_password: confirm_password
+                },
+                success: function(response) {
+                    $('#add_user').find('input').each(function() {
+                            $(this).val('');
+                            $(this).next('p').text('');
+                        }),
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thêm thành công',
+                            showConfirmButton: false,
+                            timer: 2000
+                        })
+                    $('#modalRegister').modal('hide');
+                },
+                error: function(response) {
+                    $('#add_user').find('input').each(function() {
+                        $(this).next('p').text('');
+                    });
+                    var data = JSON.parse(response.responseText)['errors'];
+                    for (const key in data) {
+                        $('#error-'+key).append(data[key][0]);
+                    }
+                }
+            });
     });
 </script>
 @endsection
