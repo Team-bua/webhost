@@ -106,6 +106,93 @@
             </div>
         </div>
     </div>
+    <div class="container-fluid py-4">
+        <div class="row">
+            <div class="col-12">
+                <div class="card mb-4">
+                    <div class="card-header pb-0">
+                        @if (session('information'))
+                        <div class="alert alert-success"><b>{{ session('information') }}</b></div>
+                        @endif
+                        <a href="#">
+                            <button class="btn bg-gradient-primary mt-4 w-12" style="float: right;;margin-bottom:5px;margin-left:5px;">
+                                <i class="fa fa-plus">&nbsp; Thêm user </i></button>
+                        </a>
+                    </div>
+                    <div class="card-body px-0 pt-0 pb-2">                           
+                        <div class="table-responsive p-0">
+                            @if (session('information'))
+                                <div class="alert alert-success">{{ session('information') }}</div>
+                            @endif
+                            <table class="table table-flush" id="datatable-basic">
+                                <thead class="thead-light">
+                                    <tr>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">#</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Tên</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Email</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Total</th>
+                                        <th class="text-secondary"></th>
+                                    </tr>
+                                </thead>
+                                <tbody>                                                                     
+                                    <tr>
+                                        <td class="align-middle text-center text-sm">
+                                            <p class="text-xs font-weight-bold mb-0"></p>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <p class="text-xs font-weight-bold mb-0"></p>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <p class="text-xs font-weight-bold mb-0"></p>
+                                        </td>
+                                        <td class="align-middle text-center text-sm">
+                                            <a href="#"><span class="badge badge-sm bg-gradient-success">Data</span></a>
+                                        </td>
+                                        <td class="align-middle">
+                                            <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModalMessage" class="text-secondary font-weight-bold text-xs">
+                                                <span class="badge bg-gradient-info">Sửa</span>
+                                            </a>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModalMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
+          <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Cập nhật tiền</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">×</span>
+                </button>
+              </div>
+              <form  action="#"method="post" enctype="multipart/form-data" id="form_data">
+              @csrf
+                <div class="modal-body">                     
+                  <div class="form-group">       
+                    <label class="form-control-label" for="basic-url">Số tiền: </label>
+                    <div class="input-group">
+                        <span class="input-group-text"><i class="fa fa-paint-brush"></i></span>
+                        <input name="money" id="money" type="number" class="form-control" id="exampleFormControlInput1" placeholder="Số tiền. . . . . . . . ." min="0" maxlength="50" required>
+                        <span class="input-group-text" id="basic-addon2">VNĐ</span>
+                    </div>                        
+                  </div>                                                 
+              </div>
+              <div class="modal-footer">
+                <button type="submit" class="btn bg-gradient-secondary">Cập nhật</button>
+              </div>
+            </form>
+            </div>
+          </div>
+        </div>
+    </div>    
 </main>
 @endsection
 @section('script')
