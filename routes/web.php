@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 //Sign In
 Route::group(['middleware' => 'user'], function () {
-    Route::get('/admin',[AdminController::class,'viewAdmin'])->name('admin');
+    Route::get('/data',[AdminController::class,'viewAdmin'])->name('data');
     //Admin
     Route::get('/users',[AdminController::class,'viewUsers'])->name('users');
 

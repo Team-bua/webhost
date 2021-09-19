@@ -114,9 +114,9 @@
                             @if (session('information'))
                             <div class="alert alert-success"><b>{{ session('information') }}</b></div>
                             @endif
-                            <a href="#">
-                                <button class="btn bg-gradient-primary mt-4 w-12" style="float: right;;margin-bottom:5px;margin-left:5px;">
-                                    <i class="fa fa-plus">&nbsp; Thêm user </i></button>
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModalMessage">
+                                <button class="btn bg-gradient-primary mt-4 w-12" style="float: right;margin-bottom:5px;margin-left:5px;">
+                                    <i class="fa fa-plus">&nbsp; Add user </i></button>
                             </a>
                         </div>
                         <div class="card-body px-0 pt-0 pb-2">                           
@@ -151,7 +151,7 @@
                                                 <a href="#"><span class="badge badge-sm bg-gradient-success">Data</span></a>
                                             </td>
                                             <td class="align-middle">
-                                                <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModalMessage" class="text-secondary font-weight-bold text-xs">
+                                                <a href="#" class="text-secondary font-weight-bold text-xs">
                                                     <span class="badge bg-gradient-info">Sửa</span>
                                                 </a>
                                             </td>
@@ -171,7 +171,7 @@
               <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                   <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Cập nhật tiền</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Thêm thành viên</h5>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                       <span aria-hidden="true">×</span>
                     </button>
