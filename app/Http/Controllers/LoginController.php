@@ -22,7 +22,11 @@ class LoginController extends Controller
         }
         $credentaials = array('email' => $request->email, 'password' => $request->password);
         if (Auth::attempt($credentaials, $remember)) {
-            return redirect()->route('users')->with('message', '2');
+            if(Auth::user()->role == 1){
+                return redirect()->route('users')->with('message', '2');
+            }else{
+                return redirect()->route('data')->with('message', '2');
+            }           
         } else {
             return redirect()->back()->with('message', '3');
         }
