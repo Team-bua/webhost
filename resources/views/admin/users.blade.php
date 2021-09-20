@@ -134,7 +134,7 @@
                                             <th class="text-secondary"></th>
                                         </tr>
                                     </thead>
-                                    <tbody> 
+                                    <tbody id="tbody"> 
                                         @php $i=1 @endphp     
                                         @foreach ($users as $user)                                                                     
                                         <tr>
@@ -151,8 +151,8 @@
                                                 <a href="#"><span class="badge badge-sm bg-gradient-success">Data</span></a>
                                             </td>
                                             <td class="align-middle">
-                                                <a href="#" class="text-secondary font-weight-bold text-xs">
-                                                    <span class="badge bg-gradient-info">Sửa</span>
+                                                <a href="javascript:;" delete_id="{{ $user->id }}" class="text-secondary font-weight-bold text-xs simpleConfirm">
+                                                    <span class="badge bg-gradient-danger">Xóa</span>
                                                 </a>
                                             </td>
                                         </tr>                                                                           
@@ -238,38 +238,79 @@
         var confirm_password = $("#confirm_password").val();
 
         $.ajax({
-                url: "{{ route('adduser') }}",
-                type: "post",
-                data: {
-                    _token: "{{ csrf_token() }}",
-                    name: name,
-                    email: email,
-                    password: password,
-                    confirm_password: confirm_password
-                },
-                success: function(response) {
-                    $('#add_user').find('input').each(function() {
-                            $(this).val('');
-                            $(this).next('p').text('');
-                        }),
-                        Swal.fire({
-                            icon: 'success',
-                            title: 'Thêm thành công',
-                            showConfirmButton: false,
-                            timer: 2000
-                        })
-                    $('#modalRegister').modal('hide');
-                },
-                error: function(response) {
-                    $('#add_user').find('input').each(function() {
+            url: "{{ route('adduser') }}",
+            type: "post",
+            data: {
+                _token: "{{ csrf_token() }}",
+                name: name,
+                email: email,
+                password: password,
+                confirm_password: confirm_password
+            },
+            success: function(response) {
+                $('#add_user').find('input').each(function() {
+                        $(this).val('');
                         $(this).next('p').text('');
-                    });
-                    var data = JSON.parse(response.responseText)['errors'];
-                    for (const key in data) {
-                        $('#error-'+key).append(data[key][0]);
-                    }
+                    }),
+                    Swal.fire({
+                        icon: 'success',
+                        title: 'Thêm thành công',
+                        showConfirmButton: false,
+                        timer: 2000
+                    })
+                $('#modalRegister').modal('hide');
+            },
+            error: function(response) {
+                $('#add_user').find('input').each(function() {
+                    $(this).next('p').text('');
+                });
+                var data = JSON.parse(response.responseText)['errors'];
+                for (const key in data) {
+                    $('#error-'+key).append(data[key][0]);
                 }
-            });
+            }
+        });
+    });
+
+    $(document).on('click', '.simpleConfirm', function(e) {
+        e.preventDefault();
+        var id = $(this).attr('delete_id');
+        var that = $(this);
+        swal.fire({
+            title: "Bạn có muốn xóa user này?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xóa ngay!',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    method: 'get',
+                    url: "{{ route('users.delete') }}",
+                    data: {
+                        id: id
+                    },
+                    success: function(data) {
+                        if (data.success == true) {
+                            that.parent().parent().remove();
+                            Swal.fire(
+                                'Xóa!',
+                                'Xóa thành công.',
+                                'success'
+                            )
+                            $('#tbody').html(data.data_del);
+                        } else {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Không thể xóa admin!',
+                            })
+                        }
+                    }
+                })
+            }
+        });
     });
 </script>
 @endsection

@@ -39,4 +39,9 @@ class AdminController extends Controller
             'success' => true
         ],200);
     }
+
+    public function delete(Request $request)
+    {
+        return $this->repository->delete($request);
+    }
 }

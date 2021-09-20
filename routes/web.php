@@ -22,6 +22,7 @@ Route::group(['middleware' => 'user'], function () {
     //Admin
     Route::get('/users',[AdminController::class,'viewUsers'])->name('users');
     Route::post('/add-user',[AdminController::class,'createUser'])->name('adduser');
+    Route::get('/delete-user',[AdminController::class,'delete'])->name('users.delete');
 });
 Route::get('/',[LoginController::class,'viewSign'])->name('signin.view');
 Route::post('/sigin-in',[LoginController::class,'postSignIn'])->name('signin');
