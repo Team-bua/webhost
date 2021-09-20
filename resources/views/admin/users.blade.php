@@ -262,8 +262,8 @@
                 window.location.reload();
             },
             error: function(response) {
-                $('#add_user').find('input').each(function() {
-                    $(this).next('p').text('');
+                $('#add_user').find('p').each(function() {
+                    $(this).text('');
                 });
                 var data = JSON.parse(response.responseText)['errors'];
                 for (const key in data) {
