@@ -259,6 +259,7 @@
                         timer: 2000
                     })
                 $('#modalRegister').modal('hide');
+                window.location.reload();
             },
             error: function(response) {
                 $('#add_user').find('input').each(function() {

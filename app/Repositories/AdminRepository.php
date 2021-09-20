@@ -21,6 +21,7 @@ class AdminRepository
         $user->password = Hash::make($request->password);
         $user->user_token = Str::random(30);
         $user->save();
+        
     }
 
     public function delete($request)
