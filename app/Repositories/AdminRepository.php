@@ -21,7 +21,6 @@ class AdminRepository
         $user->password = Hash::make($request->password);
         $user->user_token = Str::random(30);
         $user->save();
-        
     }
 
     public function delete($request)
@@ -35,7 +34,7 @@ class AdminRepository
             $i = 1;
             $output = null;
             $delete->delete();
-            $user = User::orderBy('created_at')->get();
+            $user = User::orderBy('created_at', 'desc')->get();
             if(count($user) > 0){
                 foreach($user as $us){
                     $output .= '<tr>
