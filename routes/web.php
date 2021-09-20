@@ -23,6 +23,10 @@ Route::group(['middleware' => 'user'], function () {
     Route::get('/users',[AdminController::class,'viewUsers'])->name('users');
     Route::post('/add-user',[AdminController::class,'createUser'])->name('adduser');
     Route::get('/delete-user',[AdminController::class,'delete'])->name('users.delete');
+
+    Route::get('/profile/{id}',[AdminController::class,'getProfile'])->name('profile');
+    Route::post('/update-info/{id}',[AdminController::class,'updateInfo'])->name('update.info');
+    Route::post('/update-pass/{id}',[AdminController::class,'updatePass'])->name('update.pass');
 });
 Route::get('/',[LoginController::class,'viewSign'])->name('signin.view');
 Route::post('/sigin-in',[LoginController::class,'postSignIn'])->name('signin');

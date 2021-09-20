@@ -22,6 +22,12 @@ class AdminController extends Controller
         return view('admin.dashboard');
     }
 
+    public function getProfile($id)
+    {
+        $user = $this->repository->getProfile($id);
+        return view('admin.profile', compact('user'));
+    }
+
     public function viewUsers()
     {
         if(Auth::user()->role == 0){
@@ -38,6 +44,43 @@ class AdminController extends Controller
         return response()->json([
             'success' => true
         ],200);
+    }
+
+    public function updateInfo(Request $request, $id)
+    {
+        $this->validate(
+            $request,
+            [
+                'name' =>'required|max:30|regex:/(^[\pL0-9 ]+$)/u',
+            ],
+            [
+                'name.required' => 'Vui lòng nhập tên',
+                'name.max' => 'Giới hạn 30 ký tự',
+                'name.regex' => 'Tên không có ký tự đặc biệt',
+            ]
+        );
+        $this->repository->updateInfo($request, $id);
+        return redirect()->back()->with('information', 'Cập nhật thành công');
+    }
+
+    public function updatePass(Request $request, $id)
+    {
+        $this->validate(
+            $request,
+            [
+                'new_password' => 'required|min:5|max:25',
+                'confirm_password' => 'required|same:new_password',
+            ],
+            [
+                'new_password.required' => 'Vui lòng nhập mật khẩu',              
+                'new_password.min' => 'Thấp nhất 5 ký tự',
+                'new_password.max' => 'Giới hạn 25 ký tự',
+                'confirm_password.required' => 'Vui lòng nhập lại mật khẩu',
+                'confirm_password.same' => 'Xác nhận mật khẩu không chính xác',
+            ]
+        );
+        $this->repository->updatePass($request, $id);
+        return redirect()->back()->with('changepass', 'Cập nhật thành công');
     }
 
     public function delete(Request $request)

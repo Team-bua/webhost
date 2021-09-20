@@ -13,6 +13,11 @@ class AdminRepository
        return User::orderBy('created_at', 'desc')->get();
    }
 
+   public function getProfile($id)
+   {
+       return User::find($id);
+   }
+
    public function createUser($request)
     {
         $user = new User();
@@ -63,5 +68,19 @@ class AdminRepository
                 'data_del' => $output
             ]);
         }
+    }
+
+    public function updateInfo($request, $id)
+    {
+        $user = User::find($id);
+        $user->name = $request->name;
+        $user->save();
+    }
+
+    public function updatePass($request, $id)
+    {
+        $user = User::find($id);
+        $user->password = Hash::make($request->new_password);
+        $user->save();
     }
 }
