@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\RegisterUserRequest;
 use App\Repositories\AdminRepository;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AdminController extends Controller
 {
@@ -23,8 +24,12 @@ class AdminController extends Controller
 
     public function viewUsers()
     {
-        $users = $this->repository->getUsers();
-        return view('admin.users', compact('users'));
+        if(Auth::user()->role == 0){
+            return redirect()->route('data');
+        }else{
+            $users = $this->repository->getUsers();
+            return view('admin.users', compact('users'));
+        }      
     }
 
     public function createUser(RegisterUserRequest $request)

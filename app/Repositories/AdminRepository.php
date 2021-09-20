@@ -22,4 +22,9 @@ class AdminRepository
         $user->user_token = Str::random(30);
         $user->save();
     }
+
+    public function delete($id)
+    {
+        
+    }
 }
