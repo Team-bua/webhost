@@ -43,16 +43,17 @@ class DataRepository
     {
         $data = '';
         $c = 0;
+        $date = date('Y-m-d His');
         foreach ($data_user as $value) {
             $data .= $value->data . PHP_EOL;
             $c++;
         }
         $data = "Tổng dữ liệu: " . $c . " - Ngày xuất: " . date('Y-m-d H:i:s') . "\n" . $data;
-        Storage::put('data_user.txt', $data);
+        Storage::put($date.'.txt', $data);
         foreach ($data_user as $du) {
             $du->delete();
         }
-        return response()->download(storage_path('app/data_user.txt'));
+        return response()->download(storage_path('app/'.$date.'.txt'));
     }
 
     public function importFile($request)
