@@ -9,9 +9,9 @@
                 <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
                     <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Admin</a>
                     </li>
-                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Dashboard</li>
+                    <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Data</li>
                 </ol>
-                <h6 class="font-weight-bolder mb-0">Dashboard</h6>
+                <h6 class="font-weight-bolder mb-0">Data @if(Auth::user()->role == 1 && $user->role != 1)- Thành viên: {{ $user->name }} - {{ $user->email }} @endif</h6>
             </nav>
         @include('admin.info')        
         </div>
@@ -112,44 +112,45 @@
                 <div class="card mb-4">
                     <div class="card-header pb-0">
                         @if (session('information'))
-                        <div class="alert alert-success"><b>{{ session('information') }}</b></div>
-                        @endif
+                            <div class="alert alert-{{ session('information') }}"><b>{{ session('messege') }}</b></div>
+                        @endif                      
                         <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModalMessage" class="text-secondary font-weight-bold text-xs">
                             <button class="btn bg-gradient-primary mt-4 w-12" style="float: right;;margin-bottom:5px;margin-left:5px;">
                                 <i class="fa fa-plus">&nbsp; Create Data </i></button>
                         </a>
                         <a href="{{ route('export.data', $token) }}">
                             <button class="btn bg-gradient-info mt-4 w-12" style="float: right;;margin-bottom:5px;margin-left:5px;">
-                                <i class="fa fa-plus">&nbsp; Export Data </i></button>
+                                <i class="fa fa-plus">&nbsp; Export File </i></button>
                         </a>
                             <button class="btn bg-gradient-success mt-4 w-12" id="btn_import" style="float: right;;margin-bottom:5px;margin-left:5px;">
-                                <i class="fa fa-plus">&nbsp; Import Data </i></button>
+                                <i class="fa fa-plus">&nbsp; Import File </i></button>
                                 <form action="{{ route('import.file') }}" id="import_file" method="post" enctype="multipart/form-data">
                                 @csrf
-                                <input type="text" name="token_user" value="{{ $token }}">
-                                <input type="file" onchange="importFile(this)" id="text_file" name="text_file">
+                                <input type="text" style="display: none" name="token_user" value="{{ $token }}">
+                                <input type="file" style="display: none" onchange="importFile(this)" id="text_file" name="text_file">
                                 </form>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">                           
                         <div class="table-responsive p-0">
-                            @if (session('information'))
-                                <div class="alert alert-success">{{ session('information') }}</div>
-                            @endif
                             <table class="table table-flush" id="datatable-basic">
                                 <thead class="thead-light">
                                     <tr>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">#</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Data</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Date</th>
-                                        <th class="text-secondary"></th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Ngày</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
+                                            <a href="javascript:;" class="text-secondary font-weight-bold text-xs delete_all">
+                                                <span class="badge bg-gradient-danger">Xoá tất cả</span>
+                                            </a>
+                                        </th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody id="tbody">
                                     @php
                                         $i = 1;
                                     @endphp
                                     @if(isset($datas))      
-                                    @foreach($datas as $data)                                                               
+                                    @foreach($datas as $data)                                                             
                                     <tr>
                                         <td class="align-middle text-center text-sm">
                                             <p class="text-xs font-weight-bold mb-0">{{ $i++ }}</p>
@@ -161,11 +162,11 @@
                                             <p class="text-xs font-weight-bold mb-0">{{ $data->created_at }}</p>
                                         </td>
                                         <td class="align-middle">
-                                            <a href="#" class="text-secondary font-weight-bold text-xs">
+                                            {{-- <a href="#" class="text-secondary font-weight-bold text-xs">
                                                 <span class="badge bg-gradient-info">Sửa</span>
                                             </a>
-                                            |
-                                            <a href="#" class="text-secondary font-weight-bold text-xs">
+                                            || --}}
+                                            <a href="javascript:;" delete_id="{{ $data->id }}" class="text-secondary font-weight-bold text-xs simpleConfirm">
                                                 <span class="badge bg-gradient-danger">Xoá</span>
                                             </a>
                                         </td>
@@ -186,7 +187,7 @@
             <div class="modal-dialog modal-dialog-centered" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" id="exampleModalLabel">Thêm mã thẻ</h5>
+                        <h5 class="modal-title" id="exampleModalLabel">Thêm dữ liệu</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">×</span>
                         </button>
@@ -195,14 +196,13 @@
                         @csrf
                         <div class="modal-body">
                             <div class="form-group">
-                                <label for="exampleFormControlTextarea1">Mã thẻ(ID|MãThẻ hoặc MãVoucher)</label>
+                                <label for="exampleFormControlTextarea1">Dữ liệu</label>
                                 <textarea class="form-control" id="data_text" name="data_text" rows="3"></textarea>
                             </div>
                             <p id="error-data-text" style="color:red;font-size: 13px;margin-left: 10px"></p>
                         </div>
                         <div class="modal-footer">
                             <button type="submit" class="btn bg-gradient-success">Thêm</button>
-                            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Đóng</button>
                         </div>
                     </form>
                 </div>
@@ -258,5 +258,77 @@
     function importFile(input){
         $('#import_file').submit();
     }
+
+    $(document).on('click', '.simpleConfirm', function(e) {
+        e.preventDefault();
+        var id = $(this).attr('delete_id');
+        var that = $(this);
+        swal.fire({
+            title: "Bạn có muốn xóa dữ liệu này?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xóa ngay!',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    method: 'get',
+                    url: "{{ route('data.delete') }}",
+                    data: {
+                        id: id,
+                        user_token: '{{ $token }}'
+                    },
+                    success: function(data) {
+                        if (data.success == true) {
+                            Swal.fire(
+                                'Xóa!',
+                                'Xóa thành công.',
+                                'success'
+                            )
+                            $('#tbody').html(data.data_del);
+                        }
+                    }
+                })
+            }
+        });
+    });
+
+    $(document).on('click', '.delete_all', function(e) {
+        e.preventDefault();
+        var id = $(this).attr('delete_id');
+        var that = $(this);
+        swal.fire({
+            title: "Bạn có muốn xóa tất cả dữ liệu này?",
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Xóa ngay!',
+            cancelButtonText: 'Hủy'
+        }).then((result) => {
+            if (result.value) {
+                $.ajax({
+                    method: 'get',
+                    url: "{{ route('data.delete.all') }}",
+                    data: {
+                        id: id,
+                        user_token: '{{ $token }}'
+                    },
+                    success: function(data) {
+                        if (data.success == true) {
+                            Swal.fire(
+                                'Xóa!',
+                                'Xóa thành công.',
+                                'success'
+                            )
+                            window.location.reload();
+                        }
+                    }
+                })
+            }
+        });
+    });
   </script> 
 @endsection

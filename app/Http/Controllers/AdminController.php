@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterUserRequest;
 use App\Models\DataUser;
+use App\Models\User;
 use App\Repositories\AdminRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -20,8 +21,9 @@ class AdminController extends Controller
 
     public function viewAdmin($token)
     {
-        $datas = DataUser::all();
-        return view('admin.dashboard', compact('token', 'datas'));
+        $datas = DataUser::where('user_token', $token)->get();
+        $user = User::where('user_token', $token)->first();
+        return view('admin.dashboard', compact('token', 'datas', 'user'));
     }
 
     public function getProfile($id)
@@ -36,7 +38,8 @@ class AdminController extends Controller
             return redirect()->route('data');
         }else{
             $users = $this->repository->getUsers();
-            return view('admin.users', compact('users'));
+            $count_data = $this->repository->countData($users);
+            return view('admin.users', compact('users', 'count_data'));
         }      
     }
 

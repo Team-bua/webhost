@@ -2,6 +2,7 @@
 
 namespace App\Repositories;
 
+use App\Models\DataUser;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
@@ -16,6 +17,16 @@ class AdminRepository
    public function getProfile($id)
    {
        return User::find($id);
+   }
+
+   public function countData($users)
+   {
+        $count_data = [];
+        foreach($users as $user){
+            $count = DataUser::where('user_token', $user->user_token)->count();
+            $count_data[$user->id] = $count;
+        }
+        return $count_data;
    }
 
    public function createUser($request)
@@ -35,10 +46,14 @@ class AdminRepository
             return response()->json([
                 'success' => false,
             ]);
-        }else{
+        }else{          
+            $data = DataUser::where('user_token', $request->user_token)->get();
+            foreach($data as $da){
+                $da->delete();
+            }
+            $delete->delete();
             $i = 1;
             $output = null;
-            $delete->delete();
             $user = User::orderBy('created_at', 'desc')->get();
             if(count($user) > 0){
                 foreach($user as $us){

@@ -17,7 +17,7 @@ class LoginController extends Controller
             if(Auth::user()->role == 1){
                 return redirect()->route('users');
             }else{
-                return redirect()->route('data');
+                return redirect()->route('data', Auth::user()->user_token);
             }
         }else{
             return view('admin.signin');
@@ -35,7 +35,7 @@ class LoginController extends Controller
             if(Auth::user()->role == 1){
                 return redirect()->route('users')->with('message', '2');
             }else{
-                return redirect()->route('data')->with('message', '2');
+                return redirect()->route('data', Auth::user()->user_token)->with('message', '2');
             }           
         } else {
             return redirect()->back()->with('message', '3');

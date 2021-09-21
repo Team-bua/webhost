@@ -32,6 +32,8 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('/import-data/{token}',[DataController::class,'importData'])->name('import.data');
     Route::get('/export-data/{token}',[DataController::class,'exportData'])->name('export.data');
     Route::post('/import-file',[DataController::class,'importFile'])->name('import.file');
+    Route::get('/delete-data',[DataController::class,'delete'])->name('data.delete');
+    Route::get('/delete-all',[DataController::class,'deleteAll'])->name('data.delete.all');
 });
 Route::get('/',[LoginController::class,'viewSign'])->name('signin.view');
 Route::post('/sigin-in',[LoginController::class,'postSignIn'])->name('signin');

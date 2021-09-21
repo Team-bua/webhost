@@ -130,7 +130,7 @@
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">#</th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Tên</th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Email</th>
-                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Total</th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Tổng Data</th>
                                             <th class="text-secondary"></th>
                                         </tr>
                                     </thead>
@@ -138,6 +138,7 @@
                                         @php $i=1 @endphp     
                                         @foreach ($users as $user)                                                                     
                                         <tr>
+                                            <input type="text" style="display: none" id="token_user" name="token_user" value="{{ $user->user_token }}">
                                             <td class="align-middle text-center text-sm">
                                                 <p class="text-xs font-weight-bold mb-0">{{ $i++ }}</p>
                                             </td>
@@ -148,10 +149,10 @@
                                                 <p class="text-xs font-weight-bold mb-0">{{ $user->email }}</p>
                                             </td>
                                             <td class="align-middle text-center text-sm">
-                                                
+                                                <span class="badge badge-sm bg-gradient-info">{{ $count_data[$user->id] }}</span>
                                             </td>
                                             <td class="align-middle">
-                                                <a href="{{ route('data', $user->user_token) }}"><span class="badge badge-sm bg-gradient-success">Data</span></a> || 
+                                                <a href="{{ route('data', $user->user_token) }}" target="_blank"><span class="badge badge-sm bg-gradient-success">Data</span></a> || 
                                                 <a href="javascript:;" delete_id="{{ $user->id }}" class="text-secondary font-weight-bold text-xs simpleConfirm">
                                                     <span class="badge bg-gradient-danger">Xóa</span>
                                                 </a>
@@ -277,7 +278,7 @@
     $(document).on('click', '.simpleConfirm', function(e) {
         e.preventDefault();
         var id = $(this).attr('delete_id');
-        var that = $(this);
+        var token = $('#token_user').val();
         swal.fire({
             title: "Bạn có muốn xóa user này?",
             icon: 'warning',
@@ -292,11 +293,11 @@
                     method: 'get',
                     url: "{{ route('users.delete') }}",
                     data: {
-                        id: id
+                        id: id,
+                        user_token: token
                     },
                     success: function(data) {
                         if (data.success == true) {
-                            that.parent().parent().remove();
                             Swal.fire(
                                 'Xóa!',
                                 'Xóa thành công.',

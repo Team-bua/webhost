@@ -32,7 +32,19 @@ class DataController extends Controller
 
     public function importFile(Request $request)
     {
-        $this->repository->importFile($request);
-        return redirect()->back();
+        return $this->repository->importFile($request);
+    }
+
+    public function delete(Request $request)
+    {
+        return $this->repository->delete($request);
+    }
+
+    public function deleteAll(Request $request)
+    {
+        $this->repository->deleteAll($request);
+        return response()->json([
+            'success' => true
+        ],200);
     }
 }
