@@ -116,14 +116,14 @@
                         @endif
                         <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModalMessage" class="text-secondary font-weight-bold text-xs">
                             <button class="btn bg-gradient-primary mt-4 w-12" style="float: right;;margin-bottom:5px;margin-left:5px;">
-                                <i class="fa fa-plus">&nbsp; Import Data </i></button>
+                                <i class="fa fa-plus">&nbsp; Create Data </i></button>
                         </a>
                         <a href="{{ route('export.data', $token) }}">
-                            <button class="btn bg-gradient-primary mt-4 w-12" style="float: right;;margin-bottom:5px;margin-left:5px;">
+                            <button class="btn bg-gradient-info mt-4 w-12" style="float: right;;margin-bottom:5px;margin-left:5px;">
                                 <i class="fa fa-plus">&nbsp; Export Data </i></button>
                         </a>
-                            <button class="btn bg-gradient-primary mt-4 w-12" id="btn_import" style="float: right;;margin-bottom:5px;margin-left:5px;">
-                                <i class="fa fa-plus">&nbsp; Import Files </i></button>
+                            <button class="btn bg-gradient-success mt-4 w-12" id="btn_import" style="float: right;;margin-bottom:5px;margin-left:5px;">
+                                <i class="fa fa-plus">&nbsp; Import Data </i></button>
                                 <form action="{{ route('import.file') }}" id="import_file" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <input type="text" name="token_user" value="{{ $token }}">

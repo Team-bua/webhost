@@ -48,11 +48,11 @@ class DataRepository
             $c++;
         }
         $data = "Tổng dữ liệu: " . $c . " - Ngày xuất: " . date('Y-m-d H:i:s') . "\n" . $data;
-    Storage::put('data_user.txt', $data);
-    foreach ($data_user as $du) {
-        $du->delete();
-    }
-    return response()->download(storage_path('app/data_user.txt'));
+        Storage::put('data_user.txt', $data);
+        foreach ($data_user as $du) {
+            $du->delete();
+        }
+        return response()->download(storage_path('app/data_user.txt'));
     }
 
     public function importFile($request)
