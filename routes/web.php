@@ -18,7 +18,7 @@ use Illuminate\Support\Facades\Route;
 
 //Sign In
 Route::group(['middleware' => 'user'], function () {
-    Route::get('/data',[AdminController::class,'viewAdmin'])->name('data');
+   
     //Admin
     Route::get('/users',[AdminController::class,'viewUsers'])->name('users');
     Route::post('/add-user',[AdminController::class,'createUser'])->name('adduser');
@@ -27,6 +27,11 @@ Route::group(['middleware' => 'user'], function () {
     Route::get('/profile/{id}',[AdminController::class,'getProfile'])->name('profile');
     Route::post('/update-info/{id}',[AdminController::class,'updateInfo'])->name('update.info');
     Route::post('/update-pass/{id}',[AdminController::class,'updatePass'])->name('update.pass');
+    //Data
+    Route::get('/data/{token}',[AdminController::class,'viewAdmin'])->name('data');
+    Route::post('/import-data/{token}',[DataController::class,'importData'])->name('import.data');
+    Route::get('/export-data/{token}',[DataController::class,'exportData'])->name('export.data');
+    Route::post('/import-file',[DataController::class,'importFile'])->name('import.file');
 });
 Route::get('/',[LoginController::class,'viewSign'])->name('signin.view');
 Route::post('/sigin-in',[LoginController::class,'postSignIn'])->name('signin');

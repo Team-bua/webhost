@@ -114,10 +114,21 @@
                         @if (session('information'))
                         <div class="alert alert-success"><b>{{ session('information') }}</b></div>
                         @endif
-                        <a href="#">
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModalMessage" class="text-secondary font-weight-bold text-xs">
                             <button class="btn bg-gradient-primary mt-4 w-12" style="float: right;;margin-bottom:5px;margin-left:5px;">
-                                <i class="fa fa-plus">&nbsp; Thêm user </i></button>
+                                <i class="fa fa-plus">&nbsp; Import Data </i></button>
                         </a>
+                        <a href="{{ route('export.data', $token) }}">
+                            <button class="btn bg-gradient-primary mt-4 w-12" style="float: right;;margin-bottom:5px;margin-left:5px;">
+                                <i class="fa fa-plus">&nbsp; Export Data </i></button>
+                        </a>
+                            <button class="btn bg-gradient-primary mt-4 w-12" id="btn_import" style="float: right;;margin-bottom:5px;margin-left:5px;">
+                                <i class="fa fa-plus">&nbsp; Import Files </i></button>
+                                <form action="{{ route('import.file') }}" id="import_file" method="post" enctype="multipart/form-data">
+                                @csrf
+                                <input type="text" name="token_user" value="{{ $token }}">
+                                <input type="file" onchange="importFile(this)" id="text_file" name="text_file">
+                                </form>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">                           
                         <div class="table-responsive p-0">
@@ -128,32 +139,39 @@
                                 <thead class="thead-light">
                                     <tr>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">#</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Tên</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Email</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Total</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Data</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Date</th>
                                         <th class="text-secondary"></th>
                                     </tr>
                                 </thead>
-                                <tbody>                                                                     
+                                <tbody>
+                                    @php
+                                        $i = 1;
+                                    @endphp
+                                    @if(isset($datas))      
+                                    @foreach($datas as $data)                                                               
                                     <tr>
                                         <td class="align-middle text-center text-sm">
-                                            <p class="text-xs font-weight-bold mb-0"></p>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $i++ }}</p>
                                         </td>
                                         <td class="align-middle text-center text-sm">
-                                            <p class="text-xs font-weight-bold mb-0"></p>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $data->data }}</p>
                                         </td>
                                         <td class="align-middle text-center text-sm">
-                                            <p class="text-xs font-weight-bold mb-0"></p>
-                                        </td>
-                                        <td class="align-middle text-center text-sm">
-                                            <a href="#"><span class="badge badge-sm bg-gradient-success">Data</span></a>
+                                            <p class="text-xs font-weight-bold mb-0">{{ $data->created_at }}</p>
                                         </td>
                                         <td class="align-middle">
-                                            <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModalMessage" class="text-secondary font-weight-bold text-xs">
+                                            <a href="#" class="text-secondary font-weight-bold text-xs">
                                                 <span class="badge bg-gradient-info">Sửa</span>
+                                            </a>
+                                            |
+                                            <a href="#" class="text-secondary font-weight-bold text-xs">
+                                                <span class="badge bg-gradient-danger">Xoá</span>
                                             </a>
                                         </td>
                                     </tr>
+                                    @endforeach
+                                    @endif
                                 </tbody>
                             </table>
                         </div>
@@ -165,42 +183,80 @@
     <div class="col-md-4">
         <!-- Modal -->
         <div class="modal fade" id="exampleModalMessage" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
-          <div class="modal-dialog modal-dialog-centered" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Cập nhật tiền</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">×</span>
-                </button>
-              </div>
-              <form  action="#"method="post" enctype="multipart/form-data" id="form_data">
-              @csrf
-                <div class="modal-body">                     
-                  <div class="form-group">       
-                    <label class="form-control-label" for="basic-url">Số tiền: </label>
-                    <div class="input-group">
-                        <span class="input-group-text"><i class="fa fa-paint-brush"></i></span>
-                        <input name="money" id="money" type="number" class="form-control" id="exampleFormControlInput1" placeholder="Số tiền. . . . . . . . ." min="0" maxlength="50" required>
-                        <span class="input-group-text" id="basic-addon2">VNĐ</span>
-                    </div>                        
-                  </div>                                                 
-              </div>
-              <div class="modal-footer">
-                <button type="submit" class="btn bg-gradient-secondary">Cập nhật</button>
-              </div>
-            </form>
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Thêm mã thẻ</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <form action="#" method="post" enctype="multipart/form-data" id="import-data">
+                        @csrf
+                        <div class="modal-body">
+                            <div class="form-group">
+                                <label for="exampleFormControlTextarea1">Mã thẻ(ID|MãThẻ hoặc MãVoucher)</label>
+                                <textarea class="form-control" id="data_text" name="data_text" rows="3"></textarea>
+                            </div>
+                            <p id="error-data-text" style="color:red;font-size: 13px;margin-left: 10px"></p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn bg-gradient-success">Thêm</button>
+                            <button type="button" class="btn bg-gradient-secondary" data-bs-dismiss="modal">Đóng</button>
+                        </div>
+                    </form>
+                </div>
             </div>
-          </div>
         </div>
-    </div>    
+    </div>
 </main>
 @endsection
 @section('script')
 <script src="{{ asset('dashboard/assets/js/plugins/datatables.js') }}" type="text/javascript"></script>
 <script type="text/javascript">
     const dataTableBasic = new simpleDatatables.DataTable("#datatable-basic", {
-      searchable: false,
+      searchable: true,
       fixedHeight: true
     });
+
+    $('#import-data').submit(function(e){
+        e.preventDefault();
+        var data_text = $("#data_text").val();
+        $.ajax({
+                url: "{{ route('import.data', $token) }}",
+                type: "post",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    data_text: data_text,
+                },
+                success: function(response) {
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Thêm thành công',
+                            showConfirmButton: false,
+                            timer: 2000
+                        })
+                    $('#exampleModalMessage').modal('hide');
+                },
+                error: function(response) {
+                    // $('#add_user').find('input').each(function() {
+                    //     $(this).next('p').text('');
+                    // });
+                    var data = JSON.parse(response.responseText)['errors'];
+                    for (const key in data) {
+                        $('#error-'+key).html('')
+                        $('#error-'+key).append(data[key][0]);
+                    }
+                }
+            });
+    });
+
+    $('#btn_import').on('click', function(){
+        $('#text_file').click();
+    })
+
+    function importFile(input){
+        $('#import_file').submit();
+    }
   </script> 
 @endsection
