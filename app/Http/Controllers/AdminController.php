@@ -8,6 +8,8 @@ use App\Models\User;
 use App\Repositories\AdminRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -92,4 +94,5 @@ class AdminController extends Controller
     {
         return $this->repository->delete($request);
     }
+
 }

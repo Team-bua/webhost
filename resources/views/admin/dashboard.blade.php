@@ -20,94 +20,6 @@
     <!-- End Navbar -->
     <div class="container-fluid py-4">
         <div class="row">
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card">
-                    <div class="card-body p-3">
-                        <div class="row">
-                            <div class="col-8">
-                                <div class="numbers">
-                                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Tổng số mã thẻ</p>
-                                    <h5 class="font-weight-bolder mb-0">
-                                        
-                                    </h5>
-                                </div>
-                            </div>
-                            <div class="col-4 text-end">
-                                <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                    <i class="ni ni-credit-card text-lg opacity-10" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card">
-                    <div class="card-body p-3">
-                        <div class="row">
-                            <div class="col-8">
-                                <div class="numbers">
-                                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Tổng hóa đơn nạp</p>
-                                    <h5 class="font-weight-bolder mb-0">
-                                        
-                                    </h5>
-                                </div>
-                            </div>
-                            <div class="col-4 text-end">
-                                <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                    <i class="ni ni-paper-diploma text-lg opacity-10" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6 mb-xl-0 mb-4">
-                <div class="card">
-                    <div class="card-body p-3">
-                        <div class="row">
-                            <div class="col-8">
-                                <div class="numbers">
-                                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Tổng số user</p>
-                                    <h5 class="font-weight-bolder mb-0">
-                                     
-                                    </h5>
-                                </div>
-                            </div>
-                            <div class="col-4 text-end">
-                                <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                    <i class="ni ni-single-02 text-lg opacity-10" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-xl-3 col-sm-6">
-                <div class="card">
-                    <div class="card-body p-3">
-                        <div class="row">
-                            <div class="col-8">
-                                <div class="numbers">
-                                    <p class="text-sm mb-0 text-capitalize font-weight-bold">Tổng hóa đơn bán</p>
-                                    <h5 class="font-weight-bolder mb-0">
-                                       
-                                    </h5>
-                                </div>
-                            </div>
-                            <div class="col-4 text-end">
-                                <div class="icon icon-shape bg-gradient-primary shadow text-center border-radius-md">
-                                    <i class="ni ni-cart text-lg opacity-10" aria-hidden="true"></i>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="container-fluid py-4">
-        <div class="row">
             <div class="col-12">
                 <div class="card mb-4">
                     <div class="card-header pb-0">
@@ -120,15 +32,15 @@
                         </a>
                         <a href="{{ route('export.data', $token) }}">
                             <button class="btn bg-gradient-info mt-4 w-12" style="float: right;;margin-bottom:5px;margin-left:5px;">
-                                <i class="fa fa-plus">&nbsp; Export File </i></button>
+                                <i class="fa fa-arrow-down">&nbsp; Export File </i></button>
                         </a>
-                            <button class="btn bg-gradient-success mt-4 w-12" id="btn_import" style="float: right;;margin-bottom:5px;margin-left:5px;">
-                                <i class="fa fa-plus">&nbsp; Import File </i></button>
-                                <form action="{{ route('import.file') }}" id="import_file" method="post" enctype="multipart/form-data">
-                                @csrf
-                                <input type="text" style="display: none" name="token_user" value="{{ $token }}">
-                                <input type="file" style="display: none" onchange="importFile(this)" id="text_file" name="text_file">
-                                </form>
+                        <button class="btn bg-gradient-success mt-4 w-12" id="btn_import" style="float: right;;margin-bottom:5px;margin-left:5px;">
+                            <i class="fa fa-arrow-up">&nbsp; Import File </i></button>
+                            <form action="{{ route('import.file') }}" id="import_file" method="post" enctype="multipart/form-data">
+                            @csrf
+                            <input type="text" style="display: none" name="token_user" value="{{ $token }}">
+                            <input type="file" style="display: none" onchange="importFile(this)" id="text_file" name="text_file">
+                            </form>
                     </div>
                     <div class="card-body px-0 pt-0 pb-2">                           
                         <div class="table-responsive p-0">
@@ -236,7 +148,7 @@
                             showConfirmButton: false,
                             timer: 2000
                         })
-                    $('#exampleModalMessage').modal('hide');
+                    window.location.reload();
                 },
                 error: function(response) {
                     // $('#add_user').find('input').each(function() {
