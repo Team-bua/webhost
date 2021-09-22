@@ -115,9 +115,18 @@ class DataRepository
 
     public function deleteAll($request)
     {
+        $error = 0;
         $delete = DataUser::where('user_token', $request->user_token)->get();
-        foreach($delete as $del){
-            $del->delete();
+        if(count($delete) != 0){
+            foreach($delete as $del){
+                $del->delete();
+            }
+        }else{
+            $error = 1;
         }
+        return response()->json([
+            'success' => true,
+            'error' => $error
+        ],200);
     }
 }

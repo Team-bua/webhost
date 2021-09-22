@@ -193,6 +193,7 @@
         var token = $('#token_user').val();
         swal.fire({
             title: "Bạn có muốn xóa user này?",
+            text: "Dữ liệu sẽ mất theo khi xóa user",
             icon: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',

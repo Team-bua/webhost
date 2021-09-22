@@ -71,7 +71,7 @@
                                             <p class="text-xs font-weight-bold mb-0">{{ $data->data }}</p>
                                         </td>
                                         <td class="align-middle text-center text-sm">
-                                            <p class="text-xs font-weight-bold mb-0">{{ $data->created_at }}</p>
+                                            <p class="text-xs font-weight-bold mb-0">{{ date('H:i d/m/Y', strtotime(str_replace('/', '-', $data->created_at))) }}</p>
                                         </td>
                                         <td class="align-middle">
                                             {{-- <a href="#" class="text-secondary font-weight-bold text-xs">
@@ -230,12 +230,21 @@
                     },
                     success: function(data) {
                         if (data.success == true) {
-                            Swal.fire(
-                                'Xóa!',
-                                'Xóa thành công.',
-                                'success'
-                            )
-                            window.location.reload();
+                            if(data.error == 0){
+                                    Swal.fire(
+                                    'Xóa!',
+                                    'Xóa thành công.',
+                                    'success'
+                                )
+                                window.location.reload();
+                            }else{
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Không có data để xóa',
+                                    showConfirmButton: false,
+                                    timer: 2000
+                                })
+                            }              
                         }
                     }
                 })

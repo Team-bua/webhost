@@ -42,9 +42,6 @@ class DataController extends Controller
 
     public function deleteAll(Request $request)
     {
-        $this->repository->deleteAll($request);
-        return response()->json([
-            'success' => true
-        ],200);
+        return $this->repository->deleteAll($request);      
     }
 }
