@@ -27,14 +27,14 @@
                             <div class="alert alert-{{ session('information') }}"><b>{{ session('messege') }}</b></div>
                         @endif                      
                         <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModalMessage" class="text-secondary font-weight-bold text-xs">
-                            <button class="btn bg-gradient-primary mt-4 w-12" style="float: right;;margin-bottom:5px;margin-left:5px;">
+                            <button disabled class="btn bg-gradient-primary mt-4 w-12" style="float: right;;margin-bottom:5px;margin-left:5px;">
                                 <i class="fa fa-plus">&nbsp; Create Data </i></button>
                         </a>
                         <a href="{{ route('export.data', $token) }}">
-                            <button class="btn bg-gradient-info mt-4 w-12" style="float: right;;margin-bottom:5px;margin-left:5px;">
+                            <button disabled class="btn bg-gradient-info mt-4 w-12" style="float: right;;margin-bottom:5px;margin-left:5px;">
                                 <i class="fa fa-arrow-down">&nbsp; Export File </i></button>
                         </a>
-                        <button class="btn bg-gradient-success mt-4 w-12" id="btn_import" style="float: right;;margin-bottom:5px;margin-left:5px;">
+                        <button disabled class="btn bg-gradient-success mt-4 w-12" id="btn_import" style="float: right;;margin-bottom:5px;margin-left:5px;">
                             <i class="fa fa-arrow-up">&nbsp; Import File </i></button>
                             <form action="{{ route('import.file') }}" id="import_file" method="post" enctype="multipart/form-data">
                             @csrf
@@ -114,7 +114,7 @@
                             <p id="error-data-text" style="color:red;font-size: 13px;margin-left: 10px"></p>
                         </div>
                         <div class="modal-footer">
-                            <button type="submit" class="btn bg-gradient-success">Thêm</button>
+                            <button type="submit" class="btn bg-gradient-success submit">Thêm</button>
                         </div>
                     </form>
                 </div>
@@ -131,8 +131,13 @@
       fixedHeight: true
     });
 
+    $(document).ready(function() {
+        $('button').removeAttr('disabled');
+    });
+
     $('#import-data').submit(function(e){
         e.preventDefault();
+        $('.submit').attr('disabled', true);
         var data_text = $("#data_text").val();
         $.ajax({
                 url: "{{ route('import.data', $token) }}",
@@ -142,23 +147,33 @@
                     data_text: data_text,
                 },
                 success: function(response) {
+                    
+                    if(response.success == true){
                         Swal.fire({
                             icon: 'success',
                             title: 'Thêm thành công',
-                            showConfirmButton: false,
-                            timer: 2000
-                        })
-                    window.location.reload();
+                            showConfirmButton: true,
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            $('.submit').removeAttr('disabled');
+                        window.location.reload();
+                            } 
+                        })                             
+                    }
+                   
                 },
                 error: function(response) {
-                    // $('#add_user').find('input').each(function() {
-                    //     $(this).next('p').text('');
-                    // });
-                    var data = JSON.parse(response.responseText)['errors'];
-                    for (const key in data) {
-                        $('#error-'+key).html('')
-                        $('#error-'+key).append(data[key][0]);
-                    }
+                    var error = JSON.parse(response.responseText);
+                    Swal.fire({
+                        icon: 'error',
+                        title: 'Có '+error['error']+' dữ liệu trùng',
+                        showConfirmButton: true,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            $('.submit').removeAttr('disabled');
+                            window.location.reload();
+                        } 
+                    })       
                 }
             });
     });
@@ -194,12 +209,15 @@
                     },
                     success: function(data) {
                         if (data.success == true) {
-                            Swal.fire(
-                                'Xóa!',
-                                'Xóa thành công.',
-                                'success'
-                            )
-                            window.location.reload();
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Xóa thành công',
+                                showConfirmButton: true,
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.reload();
+                                } 
+                            })    
                         }
                     }
                 })

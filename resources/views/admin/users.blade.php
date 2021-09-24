@@ -43,6 +43,7 @@
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Tên</th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Email</th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Tổng Data</th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Token</th>
                                             <th class="text-secondary"></th>
                                         </tr>
                                     </thead>
@@ -62,6 +63,9 @@
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                 <span class="badge badge-sm bg-gradient-info">{{ $count_data[$user->id] }}</span>
+                                            </td>
+                                            <td class="align-middle text-center text-sm">
+                                                <p class="text-xs font-weight-bold mb-0">{{ $user->user_token }}</p>
                                             </td>
                                             <td class="align-middle">
                                                 <a href="{{ route('data', $user->user_token) }}" target="_blank"><span class="badge badge-sm bg-gradient-success">Data</span></a> || 

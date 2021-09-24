@@ -18,10 +18,7 @@ class DataController extends Controller
     
     public function importData(ImportDataRequest $request, $token)
     {
-        $this->repository->importData($request, $token);
-        return response()->json([
-            'success' => true
-        ],200);
+        return $this->repository->importData($request, $token);
     }
 
     public function exportData($token)
