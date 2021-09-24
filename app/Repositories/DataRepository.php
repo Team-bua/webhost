@@ -55,7 +55,7 @@ class DataRepository
         $data = file_get_contents($request->text_file->getRealPath());
         $token = $request->token_user;
         $error = 0;
-        $data_arr = explode('  ', preg_replace("/\r|\n/", " ", $data));
+        $data_arr = explode(' ', preg_replace("/\r|\n/", " ", $data));
         
         for ($i=0; $i < count($data_arr); $i++) {
             $data_all = DataUser::where('user_token', $token)
@@ -84,32 +84,31 @@ class DataRepository
     {
         $delete = DataUser::find($request->id);
         $delete->delete();
-        $i = 1;
-        $output = null;
-        $data = DataUser::where('user_token', $request->user_token)->get();
-        if(count($data) > 0){
-            foreach($data as $da){
-                $output .= '<tr>
-                            <td class="align-middle text-center text-sm">
-                                <p class="text-xs font-weight-bold mb-0">' .$i++. '</p>
-                            </td>
-                            <td class="align-middle text-center text-sm">
-                                <p class="text-xs font-weight-bold mb-0">'.$da->data.'</p>
-                            </td>
-                            <td class="align-middle text-center text-sm">
-                                <p class="text-xs font-weight-bold mb-0">'.$da->created_at.'</p>
-                            </td>
-                            <td class="align-middle">
-                            <a href="javascript:;" delete_id="'.$da->id.'" class="text-secondary font-weight-bold text-xs">
-                                <span class="badge bg-gradient-danger">Xoá</span>
-                            </a>
-                            </td>
-                            </tr>';
-            }
-        }
+        // $i = 1;
+        // $output = null;
+        // $data = DataUser::where('user_token', $request->user_token)->get();
+        // if(count($data) > 0){
+        //     foreach($data as $da){
+        //         $output .= '<tr>
+        //                     <td class="align-middle text-center text-sm">
+        //                         <p class="text-xs font-weight-bold mb-0">' .$i++. '</p>
+        //                     </td>
+        //                     <td class="align-middle text-center text-sm">
+        //                         <p class="text-xs font-weight-bold mb-0">'.$da->data.'</p>
+        //                     </td>
+        //                     <td class="align-middle text-center text-sm">
+        //                         <p class="text-xs font-weight-bold mb-0">'.$da->created_at.'</p>
+        //                     </td>
+        //                     <td class="align-middle">
+        //                     <a href="javascript:;" delete_id="'.$da->id.'" class="text-secondary font-weight-bold text-xs">
+        //                         <span class="badge bg-gradient-danger">Xoá</span>
+        //                     </a>
+        //                     </td>
+        //                     </tr>';
+        //     }
+        // }
         return response()->json([
             'success' => true,
-            'data_del' => $output
         ]);
     }
 

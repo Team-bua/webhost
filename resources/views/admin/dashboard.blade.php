@@ -199,7 +199,7 @@
                                 'Xóa thành công.',
                                 'success'
                             )
-                            $('#tbody').html(data.data_del);
+                            window.location.reload();
                         }
                     }
                 })
