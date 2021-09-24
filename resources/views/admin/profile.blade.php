@@ -6,7 +6,7 @@
         <div class="container-fluid py-1 px-3">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb bg-transparent mb-0 pb-0 pt-1 px-0 me-sm-6 me-5">
-                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Admin</a>
+                    <li class="breadcrumb-item text-sm"><a class="opacity-5 text-dark" href="javascript:;">Home</a>
                     </li>
                     <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Thông tin</li>
                 </ol>
@@ -45,6 +45,13 @@
                                 <div class="input-group">
                                 <span class="input-group-text"><i class="fa fa-envelope"></i></span>
                                 <input type="email" class="form-control" id="email" name="email" value="{{ $user->email }}"  disabled>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-control-label" for="basic-url">Token</label>
+                                <div class="input-group">
+                                <span class="input-group-text"><i class="fa fa-chain-broken"></i></span>
+                                <input type="text" class="form-control" id="token" name="token" value="{{ $user->user_token }}"  disabled>
                                 </div>
                             </div>
                         </div>

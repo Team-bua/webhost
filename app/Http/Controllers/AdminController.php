@@ -21,6 +21,11 @@ class AdminController extends Controller
         $this->repository = $repository;
     }
 
+    public function documentApi()
+    {
+        return view('admin.document');
+    }
+
     public function viewAdmin($token)
     {
         $datas = DataUser::where('user_token', $token)->get();

@@ -34,6 +34,8 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('/import-file',[DataController::class,'importFile'])->name('import.file');
     Route::get('/delete-data',[DataController::class,'delete'])->name('data.delete');
     Route::get('/delete-all',[DataController::class,'deleteAll'])->name('data.delete.all');
+    //Document
+    Route::get('/document',[AdminController::class,'documentApi'])->name('document');
 
 });
 Route::get('/',[LoginController::class,'viewSign'])->name('signin.view');

@@ -11,6 +11,10 @@ class DataUser extends Model
 
     protected $table = 'data_user';
 
+    protected $fillable = [
+        'data','user_token',
+    ];
+
     public function user()
     {
         return $this->belongsTo(User::class,'user_token', 'user_token');
