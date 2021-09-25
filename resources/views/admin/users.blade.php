@@ -68,7 +68,7 @@
                                                 <p class="text-xs font-weight-bold mb-0">{{ $user->user_token }}</p>
                                             </td>
                                             <td class="align-middle">
-                                                <a href="{{ route('data', $user->user_token) }}" target="_blank"><span class="badge badge-sm bg-gradient-success">Data</span></a> || 
+                                                <a href="{{ route('data', $user->user_token) }}"><span class="badge badge-sm bg-gradient-success">Data</span></a> || 
                                                 <a href="javascript:;" delete_id="{{ $user->id }}" class="text-secondary font-weight-bold text-xs simpleConfirm">
                                                     <span class="badge bg-gradient-danger">Xóa</span>
                                                 </a>

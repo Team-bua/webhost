@@ -249,12 +249,15 @@
                     success: function(data) {
                         if (data.success == true) {
                             if(data.error == 0){
-                                    Swal.fire(
-                                    'Xóa!',
-                                    'Xóa thành công.',
-                                    'success'
-                                )
-                                window.location.reload();
+                                Swal.fire({
+                                    icon: 'success',
+                                    title: 'Xóa thành công',
+                                    showConfirmButton: true,
+                                }).then((result) => {
+                                    if (result.isConfirmed) {
+                                        window.location.reload();
+                                    } 
+                                })
                             }else{
                                 Swal.fire({
                                     icon: 'error',

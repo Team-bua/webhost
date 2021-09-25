@@ -42,3 +42,4 @@ Route::get('/',[LoginController::class,'viewSign'])->name('signin.view');
 Route::post('/sigin-in',[LoginController::class,'postSignIn'])->name('signin');
 //Logout
 Route::get('/logout',[LoginController::class,'postLogout'])->name('logout');
+
