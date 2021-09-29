@@ -25,7 +25,7 @@
                     <div class="card-header pb-0">
                         @if (session('information'))
                             <div class="alert alert-{{ session('information') }}"><b>{{ session('messege') }}</b></div>
-                        @endif                      
+                        @endif              
                         <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModalMessage" class="text-secondary font-weight-bold text-xs">
                             <button disabled class="btn bg-gradient-primary mt-4 w-12" style="float: right;;margin-bottom:5px;margin-left:5px;">
                                 <i class="fa fa-plus">&nbsp; Create Data </i></button>
@@ -37,11 +37,15 @@
                         <button disabled class="btn bg-gradient-success mt-4 w-12" id="btn_import" style="float: right;;margin-bottom:5px;margin-left:5px;">
                             <i class="fa fa-arrow-up">&nbsp; Import File </i></button>
                             <form action="{{ route('import.file') }}" id="import_file" method="post" enctype="multipart/form-data">
-                            @csrf
-                            <input type="text" style="display: none" name="token_user" value="{{ $token }}">
-                            <input type="file" style="display: none" onchange="importFile(this)" id="text_file" name="text_file">
+                                @csrf
+                                <input type="text" style="display: none" name="token_user" value="{{ $token }}">
+                                <input type="file" style="display: none" onchange="importFile(this)" id="text_file" name="text_file">
                             </form>
-                    </div>
+                        <div class="form-check form-switch" style="float: right;margin-top:35px;margin-right:15px;">
+                            <input class="form-check-input" onchange="updateStatus(this)" type="checkbox" name="check_all" id="check_all" @if($user->get_delete == 1) checked @endif>
+                            <label class="form-check-label" for="rememberMe" style="font-size: 15px; color: red" >Lấy xong xóa</label>
+                        </div>   
+                    </div><br>
                     <div class="card-body px-0 pt-0 pb-2">                           
                         <div class="table-responsive p-0">
                             <table class="table table-flush" id="datatable-basic">
@@ -50,10 +54,11 @@
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">#</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Data</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Ngày</th>
+                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Trạng thái</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
                                             <a href="javascript:;" class="text-secondary font-weight-bold text-xs delete_all">
                                                 <span class="badge bg-gradient-danger">Xoá tất cả</span>
-                                            </a>
+                                            </a>                                     
                                         </th>
                                     </tr>
                                 </thead>
@@ -73,7 +78,14 @@
                                         <td class="align-middle text-center text-sm">
                                             <p class="text-xs font-weight-bold mb-0">{{ date('H:i d/m/Y', strtotime(str_replace('/', '-', $data->created_at))) }}</p>
                                         </td>
-                                        <td class="align-middle">
+                                        <td class="align-middle text-center text-sm">
+                                            @if($data->status == 1)
+                                                <span class="badge badge-sm bg-gradient-warning">Đã lấy</span>
+                                            @else
+                                                <span class="badge badge-sm bg-gradient-success">Chưa lấy</span>
+                                            @endif
+                                        </td>
+                                        <td class="align-middle text-center">
                                             {{-- <a href="#" class="text-secondary font-weight-bold text-xs">
                                                 <span class="badge bg-gradient-info">Sửa</span>
                                             </a>
@@ -88,6 +100,9 @@
                                 </tbody>
                             </table>
                         </div>
+                        <div class="pagination justify-content-end">
+                            {{ $datas->links('vendor.pagination.bootstrap-4') }}
+                          </div>
                     </div>
                 </div>
             </div>
@@ -126,10 +141,39 @@
 @section('script')
 <script src="{{ asset('dashboard/assets/js/plugins/datatables.js') }}" type="text/javascript"></script>
 <script type="text/javascript">
-    const dataTableBasic = new simpleDatatables.DataTable("#datatable-basic", {
-      searchable: true,
-      fixedHeight: true
-    });
+    // const dataTableBasic = new simpleDatatables.DataTable("#datatable-basic", {
+    //   searchable: true,
+    //   fixedHeight: true
+    // });
+
+    function updateStatus(el){
+        var token = "{{ $token }}";
+        if(el.checked){
+            var get_delete = 1;
+        }
+        else{
+            var get_delete = 0;
+        }    
+        $.ajax({
+            method: 'get',
+            url: "{{ route('getDelete') }}",
+            data: {
+                _token:'{{ csrf_token() }}',
+                user_token: token,
+                get_delete: get_delete,
+            },
+            success: function(data) {
+                // if (data == 1) {
+                //     Swal.fire({
+                //         icon: 'success',
+                //         title: 'Đã chọn!',
+                //         showConfirmButton: false,
+                //         timer: 2000
+                //     })
+                // }
+            }
+        })
+    }
 
     $(document).ready(function() {
         $('button').removeAttr('disabled');

@@ -3,6 +3,7 @@
 namespace App\Repositories;
 
 use App\Models\DataUser;
+use App\Models\User;
 use Illuminate\Support\Facades\Storage;
 
 class DataRepository
@@ -44,7 +45,7 @@ class DataRepository
         return DataUser::where('user_token', $token)->get();
     }
 
-    public function exportData($data_user)
+    public function exportData($data_user, $token)
     {
         $data = '';
         $c = 0;
@@ -54,10 +55,13 @@ class DataRepository
             $c++;
         }
         $data = "Tổng dữ liệu: " . $c . " - Ngày xuất: " . date('Y-m-d H:i:s') . "\n" . $data;
-        Storage::put($date.'.txt', $data);
-        foreach ($data_user as $du) {
-            $du->delete();
-        }
+        Storage::put($date.'.txt', $data); 
+        $user = User::where('user_token', $token)->first();
+        if($user->get_delete == 1){
+            foreach ($data_user as $du) {
+                $du->delete();
+            }
+        }    
         return response()->download(storage_path('app/'.$date.'.txt'));
     }
 

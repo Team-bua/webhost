@@ -17,6 +17,7 @@ class CreateDataUserTable extends Migration
             $table->id();
             $table->string('user_token');
             $table->string('data')->unique();
+            $table->integer('status')->default(0);
             $table->timestamps();
         });
     }

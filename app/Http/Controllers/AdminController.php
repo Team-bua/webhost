@@ -28,7 +28,7 @@ class AdminController extends Controller
 
     public function viewAdmin($token)
     {
-        $datas = DataUser::where('user_token', $token)->get();
+        $datas = DataUser::where('user_token', $token)->paginate(10);
         $user = User::where('user_token', $token)->first();
         return view('admin.dashboard', compact('token', 'datas', 'user'));
     }
@@ -93,6 +93,21 @@ class AdminController extends Controller
         );
         $this->repository->updatePass($request, $id);
         return redirect()->back()->with('changepass', 'Cập nhật thành công');
+    }
+
+    public function getDelete(Request $request)
+    {
+        $user = User::find($request->id);
+        if($user){
+            $user->get_delete = $request->get_delete;
+            $user->save();
+            return 1;
+        }
+        else
+        {
+            return 0;
+        }
+        
     }
 
     public function delete(Request $request)
