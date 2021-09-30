@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\LoginController;
+use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,3 +47,7 @@ Route::post('/sigin-in',[LoginController::class,'postSignIn'])->name('signin');
 //Logout
 Route::get('/logout',[LoginController::class,'postLogout'])->name('logout');
 
+Route::get('clear', function(){
+    Artisan::call('cache:clear');
+    return redirect()->back();
+});

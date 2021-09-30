@@ -67,6 +67,12 @@ class DataRepository
 
     public function importFile($request)
     {
+        // $data = explode(' ', preg_replace("/\r|\n/", " ", file_get_contents($request->text_file->getRealPath())));
+        // foreach($data as $dt){
+        //     $arr['1'] = $dt;
+        // }
+        // dd($arr);
+        // return $arr;
         $data = file_get_contents($request->text_file->getRealPath());
         $token = $request->token_user;
         $error = 0;

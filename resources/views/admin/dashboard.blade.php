@@ -145,6 +145,9 @@
     //   searchable: true,
     //   fixedHeight: true
     // });
+    $(document).ready(function() {
+        $('button').removeAttr('disabled');
+    });
 
     function updateStatus(el){
         var token = "{{ $token }}";
@@ -175,10 +178,6 @@
         })
     }
 
-    $(document).ready(function() {
-        $('button').removeAttr('disabled');
-    });
-
     $('#import-data').submit(function(e){
         e.preventDefault();
         $('.submit').attr('disabled', true);
@@ -200,7 +199,7 @@
                         }).then((result) => {
                         if (result.isConfirmed) {
                             $('.submit').removeAttr('disabled');
-                        window.location.reload();
+                            window.location.reload();
                             } 
                         })                             
                     }
