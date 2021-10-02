@@ -49,5 +49,6 @@ Route::get('/logout',[LoginController::class,'postLogout'])->name('logout');
 
 Route::get('clear', function(){
     Artisan::call('cache:clear');
+    Artisan::call('config:clear');
     return redirect()->back();
 });

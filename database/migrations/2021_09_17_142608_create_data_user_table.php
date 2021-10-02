@@ -16,7 +16,7 @@ class CreateDataUserTable extends Migration
         Schema::create('data_user', function (Blueprint $table) {
             $table->id();
             $table->string('user_token');
-            $table->string('data')->unique();
+            $table->text('data', 600)->unique();
             $table->integer('status')->default(0);
             $table->timestamps();
         });
