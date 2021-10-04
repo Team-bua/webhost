@@ -25,7 +25,7 @@
                         <h6 class="mb-0">Import Data</h6>
                     </div>
                         <div class="card-body p-3">
-                            <p>URL : https://data.bdads.io/api/import?user_token={token}&data={data}</p>
+                            <p>URL : POST=>https://data.bdads.io/api/import?user_token={token}&data={data}</p>
                             <p>Token : Vào trang cá nhân để lấy và nhập vào</p>
                             <p>Data : Là dữ liệu người dùng nhập vào</p>
                             <p>Ví dụ : https://data.bdads.io/api/import?user_token=abcxyz&data=string</p>
@@ -42,7 +42,7 @@
                         <h6 class="mb-0">Get Data</h6>
                     </div>
                         <div class="card-body p-3">
-                            <p>URL : https://data.bdads.io/api/get-data/{token}</p>
+                            <p>URL : GET=>https://data.bdads.io/api/get-data/{token}</p>
                             <p>Token : Vào trang cá nhân để lấy và nhập vào</p>
                             <p>Ví dụ : https://data.bdads.io/api/get-data/abcxyz</p>
                         </div>

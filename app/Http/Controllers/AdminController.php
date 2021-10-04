@@ -28,7 +28,7 @@ class AdminController extends Controller
 
     public function viewAdmin($token)
     {
-        $datas = DataUser::where('user_token', $token)->paginate(10);
+        $datas = DataUser::where('user_token', $token)->orderBy('created_at', 'desc')->paginate(20);
         $user = User::where('user_token', $token)->first();
         return view('admin.dashboard', compact('token', 'datas', 'user'));
     }

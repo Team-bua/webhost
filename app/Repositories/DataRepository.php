@@ -80,7 +80,7 @@ class DataRepository
             $data_records = [];
 
             $data_user = [];
-            
+            dd($data_arr);
             $unique = array_unique($data_arr);
             $data_all = DataUser::where('user_token', $token)->get();
             foreach($data_all as $dt){
