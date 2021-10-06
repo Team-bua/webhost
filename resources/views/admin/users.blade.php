@@ -51,7 +51,7 @@
                                         @php $i=1 @endphp     
                                         @foreach ($users as $user)                                                                     
                                         <tr>
-                                            <input type="text" style="display: none" id="token_user" name="token_user" value="{{ $user->user_token }}">
+                                            <input type="hidden" id="token_user" name="token_user" value="{{ $user->user_token }}">
                                             <td class="align-middle text-center text-sm">
                                                 <p class="text-xs font-weight-bold mb-0">{{ $i++ }}</p>
                                             </td>
