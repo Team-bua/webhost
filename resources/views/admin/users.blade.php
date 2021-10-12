@@ -205,11 +205,12 @@
                     Swal.fire({
                         icon: 'success',
                         title: 'Thêm thành công',
-                        showConfirmButton: false,
-                        timer: 2000
+                        showConfirmButton: true,
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            window.location.reload();
+                        }
                     })
-                $('#modalRegister').modal('hide');
-                window.location.reload();
             },
             error: function(response) {
                 $('#add_user').find('p').each(function() {
@@ -247,12 +248,15 @@
                     },
                     success: function(data) {
                         if (data.success == true) {
-                            Swal.fire(
-                                'Xóa!',
-                                'Xóa thành công.',
-                                'success'
-                            )
-                            $('#tbody').html(data.data_del);
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Xóa thành công',
+                                showConfirmButton: true,
+                            }).then((result) => {
+                                if (result.isConfirmed) {
+                                    window.location.reload();
+                                }
+                            })
                         } else {
                             Swal.fire({
                                 icon: 'error',

@@ -18,5 +18,5 @@
             <i class="sidenav-toggler-line"></i>
           </div>
         </a>
-      </li>
+    </li>
 </ul>

@@ -52,35 +52,45 @@ class AdminRepository
                 $da->delete();
             }
             $delete->delete();
-            $i = 1;
-            $output = null;
-            $user = User::orderBy('created_at', 'desc')->get();
-            if(count($user) > 0){
-                foreach($user as $us){
-                    $output .= '<tr>
-                                <td class="align-middle text-center text-sm">
-                                    <p class="text-xs font-weight-bold mb-0">' .$i++. '</p>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <p class="text-xs font-weight-bold mb-0">'.$us->name.'</p>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <p class="text-xs font-weight-bold mb-0">'.$us->email.'</p>
-                                </td>
-                                <td class="align-middle text-center text-sm">
-                                    <a href="#"><span class="badge badge-sm bg-gradient-success">Data</span></a>
-                                </td>
-                                <td class="align-middle">
-                                    <a href="javascript:;" delete_id="'.$us->id.'" class="text-secondary font-weight-bold text-xs simpleConfirm">
-                                        <span class="badge bg-gradient-danger">Xóa</span>
-                                    </a>
-                                </td>
-                                </tr>';
-                }
-            }
+            // $i = 1;
+            // $output = null;
+            // $user = User::orderBy('created_at', 'desc')->get();
+            // $count_data = self::countData($user);
+            // if(count($user) > 0){
+            //     foreach($user as $us){
+            //         $output .= '<tr>
+            //                     <td class="align-middle text-center text-sm">
+            //                         <p class="text-xs font-weight-bold mb-0">' .$i++. '</p>
+            //                     </td>
+            //                     <td class="align-middle text-center text-sm">
+            //                         <p class="text-xs font-weight-bold mb-0">'.$us->name.'</p>
+            //                     </td>
+            //                     <td class="align-middle text-center text-sm">
+            //                         <p class="text-xs font-weight-bold mb-0">'.$us->email.'</p>
+            //                     </td>
+            //                     <td class="align-middle text-center">
+            //                     <span class="badge badge-sm bg-gradient-info">'.number_format($count_data[$us->id]).'</span>
+            //                     </td>
+            //                     <td class="align-middle text-center text-sm">
+            //                         <p class="text-xs font-weight-bold mb-0">'.$us->user_token.'</p>
+            //                     </td>
+            //                     <td class="align-middle text-center text-sm">
+            //                         <a href="'.route('data', $us->user_token).'"><span class="badge badge-sm bg-gradient-success">Data</span></a>
+            //                     </td>
+            //                     <td class="align-middle">
+            //                         <a href="javascript:;" delete_id="'.$us->id.'" class="text-secondary font-weight-bold text-xs simpleConfirm">
+            //                             <span class="badge bg-gradient-danger">Xóa</span>
+            //                         </a>
+            //                         <div class="form-check form-switch" style="margin-top: 10px">
+            //                             <input class="form-check-input" onchange="updateStatus(this)" value="{{ $user->id }}" type="checkbox" name="check_all" id="check_all" @if($user->get_delete == 1) checked @endif>
+            //                             <label class="form-check-label" for="rememberMe" style="font-size: 15px; color: red" >Lấy xong xóa</label>
+            //                         </div>
+            //                     </td>
+            //                     </tr>';
+            //     }
+            // }
             return response()->json([
                 'success' => true,
-                'data_del' => $output
             ]);
         }
     }
