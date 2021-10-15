@@ -13,7 +13,7 @@ class DataRepository
 {
     public function importData($request, $token)
     {
-        $data_arr = explode(' ',explode('  ', preg_replace("/\r|\n/", " ", $request->data_text))[0]);
+        $data_arr = explode('  ', explode('   ', preg_replace("/\r|\n/", "  ", $request->data_text))[0]);
         $error = 0;
 
         for ($i=0; $i < count($data_arr); $i++) {        
@@ -75,12 +75,11 @@ class DataRepository
             $token = $request->token_user;
             $error = 0;
             
-            $data_arr = explode(' ', preg_replace("/\r|\n/", " ", $data));
+            $data_arr = explode('  ', preg_replace("/\r|\n/", " ", $data));
 
             $data_records = [];
 
             $data_user = [];
-            dd($data_arr);
             $unique = array_unique($data_arr);
             $data_all = DataUser::where('user_token', $token)->get();
             foreach($data_all as $dt){
