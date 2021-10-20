@@ -54,7 +54,7 @@
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">#</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Data</th>
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Ngày</th>
-                                        <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Trạng thái</th>
+                                        {{-- <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Trạng thái</th> --}}
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
                                             <a href="javascript:;" class="text-secondary font-weight-bold text-xs delete_all">
                                                 <span class="badge bg-gradient-danger">Xoá tất cả</span>
@@ -78,13 +78,13 @@
                                         <td class="align-middle text-center text-sm">
                                             <p class="text-xs font-weight-bold mb-0">{{ date('H:i d/m/Y', strtotime(str_replace('/', '-', $data->created_at))) }}</p>
                                         </td>
-                                        <td class="align-middle text-center text-sm">
+                                        {{-- <td class="align-middle text-center text-sm">
                                             @if($data->status == 1)
                                                 <span class="badge badge-sm bg-gradient-warning">Đã lấy</span>
                                             @else
                                                 <span class="badge badge-sm bg-gradient-success">Chưa lấy</span>
                                             @endif
-                                        </td>
+                                        </td> --}}
                                         <td class="align-middle text-center">
                                             {{-- <a href="#" class="text-secondary font-weight-bold text-xs">
                                                 <span class="badge bg-gradient-info">Sửa</span>

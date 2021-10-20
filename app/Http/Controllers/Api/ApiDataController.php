@@ -39,32 +39,40 @@ class ApiDataController extends Controller
 
     public function getData($token)
     {    
-        $user_token = DataUser::where('user_token', $token)->where('status', 0)->first();
+        $user_token = DataUser::where('user_token', $token)->inRandomOrder()->first();
         $user = User::where('user_token', $token)->first();
+       
         if(isset($user_token->data)){
             $lock = Cache::lock($user_token->data, 10);
-
-            if ($lock->get()) {
-                if($user_token){
-                    $data = $user_token->data;
-                    if($user->get_delete == 1){
-                        $user_token->delete(); 
+            if($user->get_delete == 1){
+                if ($lock->get()) {
+                    if($user_token){
+                        $data = $user_token->data;
+                        // if($user->get_delete == 1){
+                            $user_token->delete(); 
+                        // }else{
+                        //     $user_token->status = 1; 
+                        //     $user_token->save();
+                        // }                     
+                        return response()->json([
+                            'status' => 'success',
+                            'data' =>  $data,
+                        ],200);
                     }else{
-                        $user_token->status = 1; 
-                        $user_token->save();
-                    }                     
-                    return response()->json([
-                        'status' => 'success',
-                        'data' =>  $data,
-                    ],200);
+                        return response()->json([
+                            'status' => 'error',
+                        ],500);
+                    }
+                    $lock->release();
                 }else{
-                    return response()->json([
-                        'status' => 'error',
-                    ],500);
+                    return Http::get(url("/api/get-data/{$token}"));
                 }
-                $lock->release();
             }else{
-                return Http::get("https://data.bdads.io/api/get-data/{$token}");
+                $data = $user_token->data;
+                return response()->json([
+                    'status' => 'success',
+                    'data' =>  $data,
+                ],200);
             }
         }else{
             return response()->json([
