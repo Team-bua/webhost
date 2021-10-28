@@ -48,12 +48,7 @@ class ApiDataController extends Controller
                 if ($lock->get()) {
                     if($user_token){
                         $data = $user_token->data;
-                        // if($user->get_delete == 1){
-                            $user_token->delete(); 
-                        // }else{
-                        //     $user_token->status = 1; 
-                        //     $user_token->save();
-                        // }                     
+                            $user_token->delete();               
                         return response()->json([
                             'status' => 'success',
                             'data' =>  $data,
