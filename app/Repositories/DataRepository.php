@@ -103,32 +103,6 @@ class DataRepository
              }     
              return redirect()->back()->with(['information' => 'success', 'messege' => 'Thêm dữ liệu thành công']);
          }
-        // $data = file_get_contents($request->text_file->getRealPath());
-        // $token = $request->token_user;
-        // $error = 0;
-        // $data_arr = explode(' ', preg_replace("/\r|\n/", " ", $data));
-        
-        // for ($i=0; $i < count($data_arr); $i++) {
-        //     $data_all = DataUser::where('user_token', $token)
-        //                         ->where('data', $data_arr[$i])
-        //                         ->get();
-            
-        //     if(count($data_all) == 0){
-        //         $data = new DataUser();
-        //         $data->user_token = $token;
-        //         $data->data = $data_arr[$i];
-        //         $data->save();                 
-        //     }
-        //     else{
-        //         $error++;
-                
-        //     }         
-        // }
-        // if($error == 0){
-        //     return redirect()->back()->with(['information' => 'success', 'messege' => 'Thêm dữ liệu thành công']);
-        // }else{
-        //     return redirect()->back()->with(['information' => 'warning', 'messege' => 'Có '.$error.' dữ liệu trùng']);
-        // }
     }
 
     public function delete($request)
