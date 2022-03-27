@@ -30,6 +30,8 @@ Route::group(['middleware' => 'user'], function () {
     Route::post('/update-pass/{id}',[AdminController::class,'updatePass'])->name('update.pass');
     //Data
     Route::get('/data/{token}',[AdminController::class,'viewAdmin'])->name('data');
+    Route::get('/edit-data/{id}',[DataController::class,'editData'])->name('edit.data');
+    Route::post('/update-data/{id}',[DataController::class,'updateData'])->name('update.data');
     Route::post('/import-data/{token}',[DataController::class,'importData'])->name('import.data');
     Route::get('/export-data/{token}',[DataController::class,'exportData'])->name('export.data');
     Route::post('/import-file',[DataController::class,'importFile'])->name('import.file');

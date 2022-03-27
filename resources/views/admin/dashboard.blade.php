@@ -86,10 +86,10 @@
                                             @endif
                                         </td> --}}
                                         <td class="align-middle text-center">
-                                            {{-- <a href="#" class="text-secondary font-weight-bold text-xs">
+                                            <a href="javascript:;" data-href="{{ route('edit.data', $data->id) }}" class="text-secondary font-weight-bold text-xs btn-modal"  data-container="#edit_modal">
                                                 <span class="badge bg-gradient-info">Sửa</span>
                                             </a>
-                                            || --}}
+                                            ||
                                             <a href="javascript:;" delete_id="{{ $data->id }}" class="text-secondary font-weight-bold text-xs simpleConfirm">
                                                 <span class="badge bg-gradient-danger">Xoá</span>
                                             </a>
@@ -137,6 +137,7 @@
         </div>
     </div>
 </main>
+<div class="modal fade edit_modal" id="edit_modal" tabindex="-1" role="dialog" aria-hidden="true"></div>
 @endsection
 @section('script')
 <script src="{{ asset('dashboard/assets/js/plugins/datatables.js') }}" type="text/javascript"></script>
@@ -147,6 +148,13 @@
     // });
     $(document).ready(function() {
         $('button').removeAttr('disabled');
+    });
+
+    $(document).on('click', '.btn-modal', function(e) {
+      e.preventDefault();
+      $('div.edit_modal').load($(this).attr('data-href'), function() {
+          $(this).modal('show');
+      });
     });
 
     function updateStatus(el){
@@ -219,6 +227,20 @@
                 }
             });
     });
+
+    $(document).ready(function () {
+      var msg = "{{Session::get('message')}}";
+      var exist = "{{Session::has('message')}}";
+        if (exist && msg == '1') {
+        Swal.fire({
+              icon: 'success',
+              title: 'Cập nhật thành công!',
+              showConfirmButton: false,
+              timer: 2500
+          })
+        }
+    })
+
 
     $('#btn_import').on('click', function(){
         $('#text_file').click();

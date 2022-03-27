@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\ImportDataRequest;
 use App\Models\User;
 use App\Repositories\DataRepository;
+use Exception;
 use Illuminate\Http\Request;
 
 class DataController extends Controller
@@ -20,6 +21,18 @@ class DataController extends Controller
     public function importData(ImportDataRequest $request, $token)
     {
         return $this->repository->importData($request, $token);
+    } 
+
+    public function editData($id)
+    {
+        $data = $this->repository->editData($id);
+        return view('admin.edit', compact('data'));
+    }
+
+    public function updateData(ImportDataRequest $request, $id)
+    {
+        $this->repository->updateData($request, $id);
+        return redirect()->back()->with('message', '1');
     }
 
     public function exportData($token)

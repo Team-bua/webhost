@@ -49,10 +49,7 @@ class ApiDataController extends Controller
                     if($user_token){
                         $data = $user_token->data;
                         $user_token->delete();               
-                        return response()->json([
-                            'status' => 'success',
-                            'data' =>  $data,
-                        ],200);
+                        return $data;
                     }else{
                         return response()->json([
                             'status' => 'error',
@@ -64,10 +61,7 @@ class ApiDataController extends Controller
                 }
             }else{
                 $data = $user_token->data;
-                return response()->json([
-                    'status' => 'success',
-                    'data' =>  $data,
-                ],200);
+                return $data;
             }
         }else{
             return response()->json([

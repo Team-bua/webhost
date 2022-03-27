@@ -5,7 +5,6 @@ namespace App\Repositories;
 use App\Models\DataUser;
 use App\Models\User;
 use Carbon\Carbon;
-use Exception;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 
@@ -41,6 +40,18 @@ class DataRepository
                 'error' => $error
             ],500);
         }
+    }
+
+    public function editData($id)
+    {
+        return DataUser::find($id);
+    }
+
+    public function updateData($request, $id)
+    {
+        $data = DataUser::find($id);
+        $data->data = $request->data_text;
+        $data->save();      
     }
 
     public function getDataFromTokenUser($token)
