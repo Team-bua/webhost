@@ -6,6 +6,7 @@ use App\Models\DataUser;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Storage;
 
 class DataRepository
@@ -123,6 +124,18 @@ class DataRepository
         return response()->json([
             'success' => true,
         ]); 
+    }
+
+    public function deleteFiles()
+    {
+        $storage = Storage::disk('local');
+        if($storage)
+        {
+            foreach($storage->files() as $file) {
+                $storage->delete($file);
+            }
+        }
+        
     }
 
     public function deleteAll($request)

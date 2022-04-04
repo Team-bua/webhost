@@ -48,6 +48,7 @@ Route::get('/',[LoginController::class,'viewSign'])->name('signin.view');
 Route::post('/sigin-in',[LoginController::class,'postSignIn'])->name('signin');
 //Logout
 Route::get('/logout',[LoginController::class,'postLogout'])->name('logout');
+Route::get('/delete-files',[DataController::class,'deleteFlies']);
 
 Route::get('clear', function(){
     Artisan::call('cache:clear');

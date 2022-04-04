@@ -70,4 +70,9 @@ class DataController extends Controller
         }
         
     }
+
+    public function deleteFlies()
+    {
+        return $this->repository->deleteFiles();  
+    }
 }
