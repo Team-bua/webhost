@@ -16,7 +16,7 @@ class DataRepository
         $data_arr = explode('  ', explode('   ', preg_replace("/\r|\n/", "  ", $request->data_text))[0]);
         $error = 0;
 
-        for ($i=0; $i < count($data_arr); $i++) {        
+        for ($i=0; $i < count($data_arr); $i++) {
             $data_all = DataUser::where('user_token', $token)
                                 ->where('data', $data_arr[$i])
                                 ->get();
@@ -24,7 +24,7 @@ class DataRepository
                 $data = new DataUser();
                 $data->user_token = $token;
                 $data->data = $data_arr[$i];
-                $data->save(); 
+                $data->save();
             }
             else{
                 $error++;
@@ -52,7 +52,7 @@ class DataRepository
     {
         $data = DataUser::find($id);
         $data->data = $request->data_text;
-        $data->save();      
+        $data->save();
     }
 
     public function getDataFromTokenUser($token)
@@ -70,23 +70,23 @@ class DataRepository
             $c++;
         }
         $data = "Tổng dữ liệu: " . $c . " - Ngày xuất: " . date('Y-m-d H:i:s') . "\n" . $data;
-        Storage::put($date.'.txt', $data); 
+        Storage::put($date.'.txt', $data);
         $user = User::where('user_token', $token)->first();
         if($user->get_delete == 1){
             foreach ($data_user as $du) {
                 $du->delete();
             }
-        }    
+        }
         return response()->download(storage_path('app/'.$date.'.txt'));
     }
 
     public function importFile($request)
-    {      
+    {
         if(isset($request)){
             $data = file_get_contents($request->text_file->getRealPath());
             $token = $request->token_user;
             $error = 0;
-            
+
             $data_arr = explode('  ', preg_replace("/\r|\n/", " ", $data));
 
             $data_records = [];
@@ -104,7 +104,7 @@ class DataRepository
                     $sup_arr = ['user_token'=>$token,
                                 'data' => $arr,
                                 'created_at' => Carbon::now(),
-                                ]; 
+                                ];
                     $data_records[] = $sup_arr;
                 }
             }
@@ -112,7 +112,7 @@ class DataRepository
 
                 DataUser::insert($d);
 
-             }     
+             }
              return redirect()->back()->with(['information' => 'success', 'messege' => 'Thêm dữ liệu thành công']);
          }
     }
@@ -123,7 +123,7 @@ class DataRepository
         $delete->delete();
         return response()->json([
             'success' => true,
-        ]); 
+        ]);
     }
 
     public function deleteFiles()
@@ -135,14 +135,14 @@ class DataRepository
                 $storage->delete($file);
             }
         }
-        
+
     }
 
     public function deleteAll($request)
     {
         $error = 0;
         $delete = DataUser::where('user_token', $request->user_token)->get();
-        if(count($delete) != 0){          
+        if(count($delete) != 0){
             DB::table('data_user')
                 ->where('user_token', $request->user_token)
                 ->delete();

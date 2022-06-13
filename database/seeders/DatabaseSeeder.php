@@ -17,7 +17,7 @@ class DatabaseSeeder extends Seeder
     public function run()
     {
         // \App\Models\User::factory(10)->create();
-        $this->call(UserTableSeeder::class);
+        $this->call(settingTableSeeder::class);
     }
 }
 
@@ -32,6 +32,19 @@ class UserTableSeeder extends Seeder
                 'email' => 'admin@hosting.com',
                 'password' => Hash::make('admin@123'),
                 'user_token' => Str::random(30)
+            ],
+        ]);
+    }
+}
+
+class settingTableSeeder extends Seeder
+{
+    public function run()
+    {
+        DB::table('setting')->insert([
+            [
+                'id' => 1,
+                'limit' => '0',
             ],
         ]);
     }

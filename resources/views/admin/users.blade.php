@@ -1,4 +1,9 @@
 @extends('admin.master')
+<style>
+    .dataTable-info{
+        display: none;
+    }
+</style>
 @section('content')
     <main class="main-content position-relative max-height-vh-100 h-100 mt-1 border-radius-lg ">
         <!-- Navbar -->
@@ -22,6 +27,38 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card mb-4">
+                      <div class="card-body p-3">
+                        <div class="row">
+                           @if (session('setting'))
+                            <div class="alert alert-success"><b>{{ session('setting') }}</b></div>
+                           @endif
+                          <form action="{{ route('setting') }}" method="post" enctype="multipart/form-data" id="form_data">
+                            @csrf
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                    <label for="form-control-label">Cài đặt số ngày xóa</label> <br>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="fa fa-quidditch"></i></span>
+                                        <input name="limit" id="limit" min="0" type="number" class="form-control" value="{{ $setting->limit }}" required>
+                                    </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="text-center">
+                                <input type="submit" name="submit" id="submit" value="Cập nhật" class="btn bg-gradient-primary w-12 btnthem">
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+                </div>
+            </div>
+          </div>
+        <div class="container-fluid py-4">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-4">
                         <div class="card-header pb-0">
                             @if (session('information'))
                             <div class="alert alert-success"><b>{{ session('information') }}</b></div>
@@ -31,7 +68,7 @@
                                     <i class="fa fa-plus">&nbsp; Add user </i></button>
                             </a>
                         </div>
-                        <div class="card-body px-0 pt-0 pb-2">                           
+                        <div class="card-body px-0 pt-0 pb-2">
                             <div class="table-responsive p-0">
                                 @if (session('information'))
                                     <div class="alert alert-success">{{ session('information') }}</div>
@@ -47,9 +84,9 @@
                                             <th class="text-secondary"></th>
                                         </tr>
                                     </thead>
-                                    <tbody id="tbody"> 
-                                        @php $i=1 @endphp     
-                                        @foreach ($users as $user)                                                                     
+                                    <tbody id="tbody">
+                                        @php $i=1 @endphp
+                                        @foreach ($users as $user)
                                         <tr>
                                             <input type="hidden" id="token_user" name="token_user" value="{{ $user->user_token }}">
                                             <td class="align-middle text-center text-sm">
@@ -68,7 +105,7 @@
                                                 <p class="text-xs font-weight-bold mb-0">{{ $user->user_token }}</p>
                                             </td>
                                             <td class="align-middle">
-                                                <a href="{{ route('data', $user->user_token) }}"><span class="badge badge-sm bg-gradient-success">Data</span></a> || 
+                                                <a href="{{ route('data', $user->user_token) }}"><span class="badge badge-sm bg-gradient-success">Data</span></a> ||
                                                 <a href="javascript:;" delete_id="{{ $user->id }}" class="text-secondary font-weight-bold text-xs simpleConfirm">
                                                     <span class="badge bg-gradient-danger">Xóa</span>
                                                 </a><br>
@@ -77,8 +114,8 @@
                                                     <label class="form-check-label" for="rememberMe" style="font-size: 15px; color: red" >Lấy xong xóa</label>
                                                 </div>
                                             </td>
-                                        </tr>                                                                           
-                                        @endforeach 
+                                        </tr>
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
@@ -100,39 +137,39 @@
                   </div>
                   <form action="#" method="post" enctype="multipart/form-data" id="add_user">
                     @csrf
-                    <div class="modal-body">                     
-                      <div class="form-group">       
+                    <div class="modal-body">
+                      <div class="form-group">
                         <label class="form-control-label" for="basic-url">Tên: </label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fa fa-paint-brush"></i></span>
-                            <input name="name" id="name" type="text" class="form-control" placeholder="Tên. . . . . . . . ." min="0" maxlength="50">                           
-                        </div>                        
-                      </div>   
-                      <p id="error-name" style="color:red;font-size: 13px;margin-left: 10px"></p> 
-                      <div class="form-group">       
+                            <input name="name" id="name" type="text" class="form-control" placeholder="Tên. . . . . . . . ." min="0" maxlength="50">
+                        </div>
+                      </div>
+                      <p id="error-name" style="color:red;font-size: 13px;margin-left: 10px"></p>
+                      <div class="form-group">
                         <label class="form-control-label" for="basic-url">Email: </label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fa fa-paint-brush"></i></span>
-                            <input name="email" id="email" type="text" class="form-control" placeholder="Email. . . . . . . . ." min="0" maxlength="50">                        
-                        </div>                        
+                            <input name="email" id="email" type="text" class="form-control" placeholder="Email. . . . . . . . ." min="0" maxlength="50">
+                        </div>
                       </div>
-                      <p id="error-email" style="color:red;font-size: 13px;margin-left: 10px"></p>    
-                      <div class="form-group">       
+                      <p id="error-email" style="color:red;font-size: 13px;margin-left: 10px"></p>
+                      <div class="form-group">
                         <label class="form-control-label" for="basic-url">Mật khẩu: </label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fa fa-paint-brush"></i></span>
-                            <input name="password" id="password" type="password" class="form-control" placeholder="Mật khẩu. . . . . . . . ." min="0" maxlength="50">                  
-                        </div>                        
-                      </div>       
+                            <input name="password" id="password" type="password" class="form-control" placeholder="Mật khẩu. . . . . . . . ." min="0" maxlength="50">
+                        </div>
+                      </div>
                       <p id="error-password" style="color:red;font-size: 13px;margin-left: 10px"></p>
-                      <div class="form-group">       
+                      <div class="form-group">
                         <label class="form-control-label" for="basic-url">Xác nhận mật khẩu: </label>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fa fa-paint-brush"></i></span>
                             <input name="confirm_password" id="confirm_password" type="password" class="form-control" placeholder="Xác nhận mật khẩu. . . . . . . . ." min="0" maxlength="50">
-                        </div>                                              
-                      </div> 
-                      <p id="error-confirm_password" style="color:red;font-size: 13px;margin-left: 10px"></p>                                                   
+                        </div>
+                      </div>
+                      <p id="error-confirm_password" style="color:red;font-size: 13px;margin-left: 10px"></p>
                   </div>
                   <div class="modal-footer">
                     <button class="btn bg-gradient-primary" id="btn-add">Thêm</button>
@@ -141,7 +178,7 @@
                 </div>
               </div>
             </div>
-        </div>    
+        </div>
     </main>
 @endsection
 @section('script')
@@ -149,16 +186,15 @@
 <script type="text/javascript">
      const dataTableBasic = new simpleDatatables.DataTable("#datatable-basic", {
       searchable: true,
-      fixedHeight: true
+      fixedHeight: true,
     });
-
     function updateStatus(el){
         if(el.checked){
             var get_delete = 1;
         }
         else{
             var get_delete = 0;
-        }    
+        }
         $.ajax({
             method: 'get',
             url: "{{ route('user.getDelete') }}",

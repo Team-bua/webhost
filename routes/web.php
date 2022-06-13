@@ -19,8 +19,10 @@ use Illuminate\Support\Facades\Route;
 
 //Sign In
 Route::group(['middleware' => 'user'], function () {
-   
+
     //Admin
+    Route::post('/setting',[AdminController::class,'setting'])->name('setting');
+
     Route::get('/users',[AdminController::class,'viewUsers'])->name('users');
     Route::post('/add-user',[AdminController::class,'createUser'])->name('adduser');
     Route::get('/delete-user',[AdminController::class,'delete'])->name('users.delete');

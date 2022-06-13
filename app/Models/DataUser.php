@@ -12,7 +12,7 @@ class DataUser extends Model
     protected $table = 'data_user';
 
     protected $fillable = [
-        'data','user_token',
+        'data','user_token', 'limit'
     ];
 
     public function user()

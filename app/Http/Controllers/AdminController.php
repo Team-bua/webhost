@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterUserRequest;
 use App\Models\DataUser;
+use App\Models\Setting;
 use App\Models\User;
 use App\Repositories\AdminRepository;
 use Illuminate\Http\Request;
@@ -28,6 +29,7 @@ class AdminController extends Controller
 
     public function viewAdmin($token)
     {
+
         $datas = DataUser::where('user_token', $token)->orderBy('created_at', 'desc')->paginate(20);
         $user = User::where('user_token', $token)->first();
         return view('admin.dashboard', compact('token', 'datas', 'user'));
@@ -44,10 +46,11 @@ class AdminController extends Controller
         if(Auth::user()->role == 0){
             return redirect()->route('data');
         }else{
+            $setting = Setting::find(1);
             $users = $this->repository->getUsers();
             $count_data = $this->repository->countData($users);
-            return view('admin.users', compact('users', 'count_data'));
-        }      
+            return view('admin.users', compact('users', 'count_data', 'setting'));
+        }
     }
 
     public function createUser(RegisterUserRequest $request)
@@ -84,7 +87,7 @@ class AdminController extends Controller
                 'confirm_password' => 'required|same:new_password',
             ],
             [
-                'new_password.required' => 'Vui lòng nhập mật khẩu',              
+                'new_password.required' => 'Vui lòng nhập mật khẩu',
                 'new_password.min' => 'Thấp nhất 5 ký tự',
                 'new_password.max' => 'Giới hạn 25 ký tự',
                 'confirm_password.required' => 'Vui lòng nhập lại mật khẩu',
@@ -107,12 +110,19 @@ class AdminController extends Controller
         {
             return 0;
         }
-        
+
     }
 
     public function delete(Request $request)
     {
         return $this->repository->delete($request);
+    }
+
+    public function setting(Request $request)
+    {
+        Setting::find(1)->update(['limit' => $request->limit]);
+        DataUser::select('limit')->update(['limit' => $request->limit]);
+        return redirect()->back()->with('setting', 'Cập nhật thành công');
     }
 
 }
