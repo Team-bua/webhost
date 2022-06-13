@@ -10,18 +10,18 @@ use Illuminate\Http\Request;
 
 class DataController extends Controller
 {
-    
+
     protected $repository;
 
     public function __construct(DataRepository $repository)
     {
         $this->repository = $repository;
     }
-    
+
     public function importData(ImportDataRequest $request, $token)
     {
         return $this->repository->importData($request, $token);
-    } 
+    }
 
     public function editData($id)
     {
@@ -53,7 +53,7 @@ class DataController extends Controller
 
     public function deleteAll(Request $request)
     {
-        return $this->repository->deleteAll($request);      
+        return $this->repository->deleteAll($request);
     }
 
     public function getDelete(Request $request)
@@ -68,11 +68,11 @@ class DataController extends Controller
         {
             return 0;
         }
-        
+
     }
 
     public function deleteFlies()
     {
-        return $this->repository->deleteFiles();  
+        return $this->repository->deleteFiles();
     }
 }

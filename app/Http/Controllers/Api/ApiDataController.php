@@ -48,10 +48,12 @@ class ApiDataController extends Controller
                 if ($lock->get()) {
                     if($user_token){
                         $data = $user_token->data;
-                        $user_token->limit = $user_token->limit - 1;
-                        $user_token->save();
+                        if ($user_token->limit != 0) {
+                            $user_token->limit = $user_token->limit - 1;
+                            $user_token->save();
+                        }
                         if ($user_token->limit == 0) {
-                           $user_token->delete();
+                            $user_token->delete();
                         }
                         return '{"status":"success","data":"'.$data.'"}';
                     }else{
@@ -65,7 +67,7 @@ class ApiDataController extends Controller
                 }
             }else{
                 $data = $user_token->data;
-                return $data;
+                return '{"status":"success","data":"'.$data.'"}';
             }
         }else{
             return response()->json([

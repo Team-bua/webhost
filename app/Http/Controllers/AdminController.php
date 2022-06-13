@@ -4,13 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\RegisterUserRequest;
 use App\Models\DataUser;
-use App\Models\Setting;
 use App\Models\User;
 use App\Repositories\AdminRepository;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
@@ -29,10 +26,10 @@ class AdminController extends Controller
 
     public function viewAdmin($token)
     {
-
         $datas = DataUser::where('user_token', $token)->orderBy('created_at', 'desc')->paginate(20);
+        $count = DataUser::where('user_token', $token)->count();
         $user = User::where('user_token', $token)->first();
-        return view('admin.dashboard', compact('token', 'datas', 'user'));
+        return view('admin.dashboard', compact('token', 'datas', 'user', 'count'));
     }
 
     public function getProfile($id)
@@ -46,10 +43,9 @@ class AdminController extends Controller
         if(Auth::user()->role == 0){
             return redirect()->route('data');
         }else{
-            $setting = Setting::find(1);
             $users = $this->repository->getUsers();
             $count_data = $this->repository->countData($users);
-            return view('admin.users', compact('users', 'count_data', 'setting'));
+            return view('admin.users', compact('users', 'count_data'));
         }
     }
 
@@ -118,11 +114,13 @@ class AdminController extends Controller
         return $this->repository->delete($request);
     }
 
-    public function setting(Request $request)
+    public function setting(Request $request, $token)
     {
-        Setting::find(1)->update(['limit' => $request->limit]);
-        DataUser::select('limit')->update(['limit' => $request->limit]);
-        return redirect()->back()->with('setting', 'Cập nhật thành công');
+        User::where('user_token', $token)->update(['limit' => $request->limit]);
+        DataUser::where('user_token', $token)->update(['limit' => $request->limit]);
+        return response()->json([
+            'success' => true
+        ],200);
     }
 
 }

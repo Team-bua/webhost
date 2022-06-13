@@ -12,8 +12,9 @@
                     <li class="breadcrumb-item text-sm text-dark active" aria-current="page">Data</li>
                 </ol>
                 <h6 class="font-weight-bolder mb-0">Data @if(Auth::user()->role == 1 && $user->role != 1)- Thành viên: {{ $user->name }} - {{ $user->email }} @endif</h6>
+                <b>Tổng số data: {{ number_format($count) }}</b>
             </nav>
-        @include('admin.info')        
+        @include('admin.info')
         </div>
         </div>
     </nav>
@@ -25,7 +26,11 @@
                     <div class="card-header pb-0">
                         @if (session('information'))
                             <div class="alert alert-{{ session('information') }}"><b>{{ session('messege') }}</b></div>
-                        @endif              
+                        @endif
+                        <a href="#" data-bs-toggle="modal" data-bs-target="#limit_modal" class="text-secondary font-weight-bold text-xs">
+                            <button disabled class="btn bg-gradient-warning mt-4 w-12" style="float: right;;margin-bottom:5px;margin-left:5px;">
+                                <i class="fa fa-tools">&nbsp; Cài đặt </i></button>
+                        </a>
                         <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModalMessage" class="text-secondary font-weight-bold text-xs">
                             <button disabled class="btn bg-gradient-primary mt-4 w-12" style="float: right;;margin-bottom:5px;margin-left:5px;">
                                 <i class="fa fa-plus">&nbsp; Create Data </i></button>
@@ -44,9 +49,9 @@
                         <div class="form-check form-switch" style="float: right;margin-top:35px;margin-right:15px;">
                             <input class="form-check-input" onchange="updateStatus(this)" type="checkbox" name="check_all" id="check_all" @if($user->get_delete == 1) checked @endif>
                             <label class="form-check-label" for="rememberMe" style="font-size: 15px; color: red" >Lấy xong xóa</label>
-                        </div>   
+                        </div>
                     </div><br>
-                    <div class="card-body px-0 pt-0 pb-2">                           
+                    <div class="card-body px-0 pt-0 pb-2">
                         <div class="table-responsive p-0">
                             <table class="table table-flush" id="datatable-basic">
                                 <thead class="thead-light">
@@ -58,7 +63,7 @@
                                         <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">
                                             <a href="javascript:;" class="text-secondary font-weight-bold text-xs delete_all">
                                                 <span class="badge bg-gradient-danger">Xoá tất cả</span>
-                                            </a>                                     
+                                            </a>
                                         </th>
                                     </tr>
                                 </thead>
@@ -66,8 +71,8 @@
                                     @php
                                         $i = 1;
                                     @endphp
-                                    @if(isset($datas))      
-                                    @foreach($datas as $data)                                                             
+                                    @if(isset($datas))
+                                    @foreach($datas as $data)
                                     <tr>
                                         <td class="align-middle text-center text-sm">
                                             <p class="text-xs font-weight-bold mb-0">{{ $i++ }}</p>
@@ -136,6 +141,9 @@
             </div>
         </div>
     </div>
+    <div class="modal fade" id="limit_modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalMessageTitle" aria-hidden="true">
+        @include('admin.partials.limit_modal')
+    </div>
 </main>
 <div class="modal fade edit_modal" id="edit_modal" tabindex="-1" role="dialog" aria-hidden="true"></div>
 @endsection
@@ -164,7 +172,7 @@
         }
         else{
             var get_delete = 0;
-        }    
+        }
         $.ajax({
             method: 'get',
             url: "{{ route('getDelete') }}",
@@ -197,7 +205,7 @@
                     _token: "{{ csrf_token() }}",
                     data_text: data_text,
                 },
-                success: function(response) {                  
+                success: function(response) {
                     if(response.success == true){
                         Swal.fire({
                             icon: 'success',
@@ -207,10 +215,10 @@
                         if (result.isConfirmed) {
                             $('.submit').removeAttr('disabled');
                             window.location.reload();
-                            } 
-                        })                             
+                            }
+                        })
                     }
-                   
+
                 },
                 error: function(response) {
                     var error = JSON.parse(response.responseText);
@@ -222,8 +230,37 @@
                         if (result.isConfirmed) {
                             $('.submit').removeAttr('disabled');
                             window.location.reload();
-                        } 
-                    })       
+                        }
+                    })
+                }
+            });
+    });
+
+    $('#limit_form').submit(function(e){
+        e.preventDefault();
+        $('.submit').attr('disabled', true);
+        var limit = $("#limit").val();
+        $.ajax({
+                url: "{{ route('user.limit', $token) }}",
+                type: "post",
+                data: {
+                    _token: "{{ csrf_token() }}",
+                    limit: limit,
+                },
+                success: function(response) {
+                    if(response.success == true){
+                        Swal.fire({
+                            icon: 'success',
+                            title: 'Cập nhật thành công',
+                            showConfirmButton: true,
+                        }).then((result) => {
+                        if (result.isConfirmed) {
+                            $('.submit').removeAttr('disabled');
+                            window.location.reload();
+                            }
+                        })
+                    }
+
                 }
             });
     });
@@ -280,8 +317,8 @@
                             }).then((result) => {
                                 if (result.isConfirmed) {
                                     window.location.reload();
-                                } 
-                            })    
+                                }
+                            })
                         }
                     }
                 })
@@ -321,7 +358,7 @@
                                 }).then((result) => {
                                     if (result.isConfirmed) {
                                         window.location.reload();
-                                    } 
+                                    }
                                 })
                             }else{
                                 Swal.fire({
@@ -330,12 +367,12 @@
                                     showConfirmButton: false,
                                     timer: 2000
                                 })
-                            }              
+                            }
                         }
                     }
                 })
             }
         });
     });
-  </script> 
+  </script>
 @endsection

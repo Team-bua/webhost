@@ -27,38 +27,6 @@
             <div class="row">
                 <div class="col-12">
                     <div class="card mb-4">
-                      <div class="card-body p-3">
-                        <div class="row">
-                           @if (session('setting'))
-                            <div class="alert alert-success"><b>{{ session('setting') }}</b></div>
-                           @endif
-                          <form action="{{ route('setting') }}" method="post" enctype="multipart/form-data" id="form_data">
-                            @csrf
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="form-group">
-                                    <label for="form-control-label">Cài đặt số ngày xóa</label> <br>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fa fa-quidditch"></i></span>
-                                        <input name="limit" id="limit" min="0" type="number" class="form-control" value="{{ $setting->limit }}" required>
-                                    </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="text-center">
-                                <input type="submit" name="submit" id="submit" value="Cập nhật" class="btn bg-gradient-primary w-12 btnthem">
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-                </div>
-            </div>
-          </div>
-        <div class="container-fluid py-4">
-            <div class="row">
-                <div class="col-12">
-                    <div class="card mb-4">
                         <div class="card-header pb-0">
                             @if (session('information'))
                             <div class="alert alert-success"><b>{{ session('information') }}</b></div>
