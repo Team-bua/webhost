@@ -23,6 +23,7 @@ class DataRepository
             if(count($data_all) == 0){
                 $data = new DataUser();
                 $data->user_token = $token;
+                $data->limit = $request->limit;
                 $data->data = $data_arr[$i];
                 $data->save();
             }
@@ -82,9 +83,11 @@ class DataRepository
 
     public function importFile($request)
     {
+
         if(isset($request)){
             $data = file_get_contents($request->text_file->getRealPath());
             $token = $request->token_user;
+            $limit = $request->limit_import;
             $error = 0;
 
             $data_arr = explode('  ', preg_replace("/\r|\n/", " ", $data));
@@ -103,6 +106,7 @@ class DataRepository
                     $sup_arr = [];
                     $sup_arr = ['user_token'=>$token,
                                 'data' => $arr,
+                                'limit' => $limit,
                                 'created_at' => Carbon::now(),
                                 ];
                     $data_records[] = $sup_arr;

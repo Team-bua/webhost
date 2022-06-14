@@ -44,6 +44,7 @@
                             <form action="{{ route('import.file') }}" id="import_file" method="post" enctype="multipart/form-data">
                                 @csrf
                                 <input type="text" style="display: none" name="token_user" value="{{ $token }}">
+                                <input type="text" style="display: none" name="limit_import" value="{{ $user->limit }}">
                                 <input type="file" style="display: none" onchange="importFile(this)" id="text_file" name="text_file">
                             </form>
                         <div class="form-check form-switch" style="float: right;margin-top:35px;margin-right:15px;">
@@ -198,12 +199,14 @@
         e.preventDefault();
         $('.submit').attr('disabled', true);
         var data_text = $("#data_text").val();
+        var limit = $("#limit").val();
         $.ajax({
                 url: "{{ route('import.data', $token) }}",
                 type: "post",
                 data: {
                     _token: "{{ csrf_token() }}",
                     data_text: data_text,
+                    limit: limit
                 },
                 success: function(response) {
                     if(response.success == true){

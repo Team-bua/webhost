@@ -48,6 +48,7 @@
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Tên</th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Email</th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Tổng Data</th>
+                                            <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Số lần xóa</th>
                                             <th class="text-center text-uppercase text-secondary text-xxs font-weight-bolder">Token</th>
                                             <th class="text-secondary"></th>
                                         </tr>
@@ -68,6 +69,9 @@
                                             </td>
                                             <td class="align-middle text-center">
                                                 <span class="badge badge-sm bg-gradient-info">{{ number_format($count_data[$user->id]) }}</span>
+                                            </td>
+                                            <td class="align-middle text-center">
+                                                <span class="badge badge-sm bg-gradient-warning">{{ $user->limit }}</span>
                                             </td>
                                             <td class="align-middle text-center text-sm">
                                                 <p class="text-xs font-weight-bold mb-0">{{ $user->user_token }}</p>
