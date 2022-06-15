@@ -48,11 +48,10 @@ class ApiDataController extends Controller
                 if ($lock->get()) {
                     if($user_token){
                         $data = $user_token->data;
-                        if ($user_token->limit != 0) {
+                        if ($user_token->limit != 1) {
                             $user_token->limit = $user_token->limit - 1;
                             $user_token->save();
-                        }
-                        if ($user_token->limit == 0) {
+                        }else{
                             $user_token->delete();
                         }
                         return '{"status":"success","data":"'.$data.'"}';
