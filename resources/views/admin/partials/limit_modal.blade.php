@@ -14,7 +14,7 @@
                         <label for="form-control-label">Cài đặt số lượt để xóa</label> <br>
                         <div class="input-group">
                             <span class="input-group-text"><i class="fa fa-quidditch"></i></span>
-                            <input name="limit" id="limit" min="0" value="{{ $user->limit }}" type="number" class="form-control" required>
+                            <input name="limit" id="limit" min="1" value="{{ $user->limit }}" type="number" class="form-control" required>
                         </div>
                     </div>
                 </div>
