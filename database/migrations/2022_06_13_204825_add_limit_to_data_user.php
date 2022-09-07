@@ -14,7 +14,7 @@ class AddLimitToDataUser extends Migration
     public function up()
     {
         Schema::table('data_user', function (Blueprint $table) {
-           $table->integer('limit')->default(0)->after('data');
+           $table->integer('limit')->default(1)->after('data');
         });
     }
 

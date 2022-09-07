@@ -14,7 +14,7 @@ class AddLimitToUsers extends Migration
     public function up()
     {
         Schema::table('users', function (Blueprint $table) {
-            $table->integer('limit')->default(0)->after('get_delete');
+            $table->integer('limit')->default(1)->after('get_delete');
         });
     }
 

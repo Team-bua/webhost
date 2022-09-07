@@ -44,7 +44,7 @@ class settingTableSeeder extends Seeder
         DB::table('setting')->insert([
             [
                 'id' => 1,
-                'limit' => '0',
+                'limit' => '1',
             ],
         ]);
     }

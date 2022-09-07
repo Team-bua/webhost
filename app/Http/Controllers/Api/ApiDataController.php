@@ -41,13 +41,12 @@ class ApiDataController extends Controller
     {
         $user_token = DataUser::where('user_token', $token)->inRandomOrder()->first();
         $user = User::where('user_token', $token)->first();
-
         if(isset($user_token->data)){
-            $lock = Cache::lock($user_token->data, 5);
+            $data = $user_token->data;
             if($user->get_delete == 1){
+                $lock = Cache::lock($data, 10);
                 if ($lock->get()) {
                     if($user_token){
-                        $data = $user_token->data;
                         if ($user_token->limit != 1) {
                             $user_token->limit = $user_token->limit - 1;
                             $user_token->save();
@@ -65,7 +64,6 @@ class ApiDataController extends Controller
                     return Http::get(url("/api/get-data/{$token}"));
                 }
             }else{
-                $data = $user_token->data;
                 return '{"status":"success","data":"'.$data.'"}';
             }
         }else{

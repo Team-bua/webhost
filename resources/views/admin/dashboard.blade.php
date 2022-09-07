@@ -272,12 +272,12 @@
       var msg = "{{Session::get('message')}}";
       var exist = "{{Session::has('message')}}";
         if (exist && msg == '1') {
-        Swal.fire({
-              icon: 'success',
-              title: 'Cập nhật thành công!',
-              showConfirmButton: false,
-              timer: 2500
-          })
+            Swal.fire({
+                icon: 'success',
+                title: 'Cập nhật thành công!',
+                showConfirmButton: false,
+                timer: 2500
+            })
         }
     })
 

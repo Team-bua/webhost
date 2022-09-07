@@ -25,10 +25,10 @@
                         <h6 class="mb-0">Import Data</h6>
                     </div>
                         <div class="card-body p-3">
-                            <p>URL : POST=>https://data.bdads.io/api/import?user_token={token}&data={data}</p>
+                            <p>URL : <b style="color: green">POST</b>=>{{url('api/import?user_token={token}&data={data}')}}</p>
                             <p>Token : Vào trang cá nhân để lấy và nhập vào</p>
                             <p>Data : Là dữ liệu người dùng nhập vào</p>
-                            <p>Ví dụ : https://data.bdads.io/api/import?user_token=abcxyz&data=string</p>
+                            <p>Ví dụ : {{url('api/import?user_token=abcxyz&data=string')}}</p>
                         </div>
                 </div>
             </div>
@@ -42,9 +42,9 @@
                         <h6 class="mb-0">Get Data</h6>
                     </div>
                         <div class="card-body p-3">
-                            <p>URL : GET=>https://data.bdads.io/api/get-data/{token}</p>
+                            <p>URL : <b style="color: green">GET</b>=>{{url('api/get-data/{token}')}}</p>
                             <p>Token : Vào trang cá nhân để lấy và nhập vào</p>
-                            <p>Ví dụ : https://data.bdads.io/api/get-data/abcxyz</p>
+                            <p>Ví dụ : {{url('api/get-data/abcxyz')}}</p>
                         </div>
                 </div>
             </div>
